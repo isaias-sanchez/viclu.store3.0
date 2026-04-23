@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { Product } from '../types/product';
 import { supabase } from '../lib/supabaseClient'; // 👈 Importamos el cliente
-import { Image as ImageIcon, Upload, X, Save, Loader2 } from 'lucide-react';
+import { Image as ImageIcon, X, Save, Loader2 } from 'lucide-react';
 
 interface ProductFormProps {
     onSubmit: (product: Product) => void;
