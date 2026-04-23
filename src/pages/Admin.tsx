@@ -1,23 +1,58 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import type { Session } from '@supabase/supabase-js';
 import { useProducts } from '../hooks/useProducts';
-import { APP_CONFIG } from '../lib/constants';
-import { Trash2, Eye, EyeOff, Plus, LogOut } from 'lucide-react';
-import type { Product } from '../types/product'; // Importar el tipo
+import { supabase } from '../lib/supabaseClient';
+import { Trash2, Eye, EyeOff, Plus, LogOut, Loader2 } from 'lucide-react';
+import type { Product } from '../types/product';
 
 import ProductForm from '../components/ProductForm';
 
 export default function AdminPage() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [session, setSession] = useState<Session | null>(null);
+    const [authLoading, setAuthLoading] = useState(true);
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [loginError, setLoginError] = useState<string | null>(null);
+    const [submitting, setSubmitting] = useState(false);
     const { products, addProduct, removeProduct, toggleStatus } = useProducts();
 
-    const handleLogin = (e: React.FormEvent) => {
+    // Restaurar sesión al montar + escuchar cambios de auth
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data }) => {
+            setSession(data.session);
+            setAuthLoading(false);
+        });
+
+        const { data: authListener } = supabase.auth.onAuthStateChange((_event, newSession) => {
+            setSession(newSession);
+        });
+
+        return () => {
+            authListener.subscription.unsubscribe();
+        };
+    }, []);
+
+    const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (password === APP_CONFIG.adminPassword) setIsAuthenticated(true);
-        else alert("Contraseña incorrecta");
+        setLoginError(null);
+        setSubmitting(true);
+
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+
+        setSubmitting(false);
+        if (error) {
+            setLoginError(error.message === 'Invalid login credentials'
+                ? 'Credenciales inválidas'
+                : error.message);
+        } else {
+            setPassword('');
+        }
     };
 
-    // --- NUEVA FUNCIÓN PARA GUARDAR CON CONFIRMACIÓN ---
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+    };
+
     const handleSaveProduct = async (newProduct: Product) => {
         const success = await addProduct(newProduct);
         if (success) {
@@ -25,23 +60,62 @@ export default function AdminPage() {
         }
     };
 
-    if (!isAuthenticated) {
+    if (authLoading) {
+        return (
+            <div className="min-h-screen bg-black flex items-center justify-center">
+                <Loader2 className="w-8 h-8 text-[#E5E4E2] animate-spin" />
+            </div>
+        );
+    }
+
+    if (!session) {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center p-4">
                 <form onSubmit={handleLogin} className="bg-[#1A1A1A] p-8 rounded border border-white/10 w-full max-w-md shadow-2xl">
                     <h1 className="text-3xl text-[#E5E4E2] font-display text-center mb-2">VICLU ADMIN</h1>
                     <p className="text-white/40 text-center mb-6 text-sm">Acceso Propietario</p>
 
+                    <label className="sr-only" htmlFor="admin-email">Correo</label>
                     <input
+                        id="admin-email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="correo@ejemplo.com"
+                        required
+                        className="w-full bg-black border border-white/20 p-4 text-white mb-3 rounded focus:outline-none focus:border-[#E5E4E2] text-center tracking-wide"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <label className="sr-only" htmlFor="admin-password">Contraseña</label>
+                    <input
+                        id="admin-password"
                         type="password"
-                        placeholder="Contraseña..."
+                        autoComplete="current-password"
+                        placeholder="Contraseña"
+                        required
                         className="w-full bg-black border border-white/20 p-4 text-white mb-4 rounded focus:outline-none focus:border-[#E5E4E2] text-center tracking-widest"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <button className="w-full bg-[#E5E4E2] text-black font-bold py-4 rounded hover:bg-white transition uppercase tracking-wider">
-                        Ingresar
+
+                    {loginError && (
+                        <p className="text-red-400 text-sm text-center mb-4" role="alert">
+                            {loginError}
+                        </p>
+                    )}
+
+                    <button
+                        type="submit"
+                        disabled={submitting}
+                        className="w-full bg-[#E5E4E2] text-black font-bold py-4 rounded hover:bg-white transition uppercase tracking-wider disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                    >
+                        {submitting && <Loader2 className="w-4 h-4 animate-spin" />}
+                        {submitting ? 'Verificando…' : 'Ingresar'}
                     </button>
+
+                    <p className="mt-6 text-center text-xs text-white/30">
+                        Autenticación segura vía Supabase
+                    </p>
                 </form>
             </div>
         );
@@ -49,12 +123,14 @@ export default function AdminPage() {
 
     return (
         <div className="min-h-screen bg-black text-[#E5E4E2] font-body pb-20">
-            {/* Header Sticky */}
             <div className="sticky top-0 z-50 bg-[#0F0F0F]/95 backdrop-blur border-b border-white/10 mb-8">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-                    <h1 className="text-2xl font-display tracking-wide">Panel de Control</h1>
+                    <div>
+                        <h1 className="text-2xl font-display tracking-wide">Panel de Control</h1>
+                        <p className="text-xs text-white/40 mt-0.5">{session.user.email}</p>
+                    </div>
                     <button
-                        onClick={() => setIsAuthenticated(false)}
+                        onClick={handleLogout}
                         className="flex items-center gap-2 text-sm text-red-400 hover:text-red-300 transition-colors"
                     >
                         <LogOut className="w-4 h-4" /> Salir
@@ -63,19 +139,15 @@ export default function AdminPage() {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-
-                {/* COLUMNA IZQUIERDA: FORMULARIO */}
                 <div className="lg:col-span-1">
                     <div className="bg-[#1A1A1A] p-6 rounded border border-white/10 sticky top-24">
                         <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-white/90">
                             <Plus className="w-5 h-5" /> Nuevo Producto
                         </h2>
-                        {/* Conectamos la nueva función handleSaveProduct */}
                         <ProductForm onSubmit={handleSaveProduct} buttonText="Guardar en Inventario" />
                     </div>
                 </div>
 
-                {/* COLUMNA DERECHA: LISTA DE PRODUCTOS */}
                 <div className="lg:col-span-2">
                     <h2 className="text-xl font-bold mb-4 text-white/90">Inventario Actual ({products.length})</h2>
 
