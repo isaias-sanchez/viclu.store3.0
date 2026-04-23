@@ -13,14 +13,12 @@ const Catalog = () => {
   const { products } = useProducts();
   const [category, setCategory] = useState<string>('All');
 
-  // Solo mostramos productos ACTIVOS y con STOCK en la tienda
   const availableProducts = products.filter(p => p.active && p.stock > 0);
 
   const visibleProducts = category === 'All'
     ? availableProducts
     : availableProducts.filter(p => p.category === category);
 
-  // Obtener categorías únicas solo de los productos disponibles
   const categories = Array.from(new Set(availableProducts.map(p => p.category))).sort();
 
   // Dividir productos en 2 bloques para intercalar videos narrativos
@@ -32,7 +30,7 @@ const Catalog = () => {
     <Layout>
       <Hero />
 
-      {/* 1er showcase — Narrativa de calle/lifestyle (justo después del hero) */}
+      {/* SHOWCASE 1 — Narrativa urbana (introducción después del hero) */}
       <VideoShowcase
         src="/videos/lifestyle-calle.webm"
         eyebrow="La Calle es la Pasarela"
@@ -41,6 +39,15 @@ const Catalog = () => {
         ctaHref="#catalogo"
         ctaLabel="Explorar Colección"
         align="left"
+      />
+
+      {/* SHOWCASE 2 — Statement editorial/cinematográfico (antes del catálogo) */}
+      <VideoShowcase
+        src="/videos/editorial.webm"
+        eyebrow="Movimiento Real"
+        title="Que Hablen las Imágenes"
+        description="Cada gorra cuenta una historia. Movimiento, actitud, carácter. Así se ven las colecciones Viclu en acción — sin filtros, sin excusas."
+        align="right"
       />
 
       <FilterBar
@@ -77,16 +84,16 @@ const Catalog = () => {
         )}
       </main>
 
-      {/* 2do showcase — Calidad profesional del producto */}
+      {/* SHOWCASE 3 — Calidad profesional (detalle de producto post-catálogo) */}
       <VideoShowcase
         src="/videos/producto-studio.webm"
         eyebrow="Atención al Detalle"
         title="Calidad que se Ve"
         description="Materiales seleccionados, bordados precisos y acabados que respetan la forma. Cada pieza pasa por un control estricto antes de salir."
-        align="right"
+        align="left"
       />
 
-      {/* 3er showcase — Variedad de estilos (al final, como cierre) */}
+      {/* SHOWCASE 4 — Variedad de estilos (cierre con CTA final) */}
       <VideoShowcase
         src="/videos/variedad.webm"
         eyebrow="Para Cada Estilo"
@@ -94,7 +101,7 @@ const Catalog = () => {
         description="Del fitted clásico al trucker moderno, encontrá la gorra que combine con tu vibra. Variedad auténtica, sin relleno."
         ctaHref="#catalogo"
         ctaLabel="Ver Todas"
-        align="left"
+        align="right"
       />
     </Layout>
   );
