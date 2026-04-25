@@ -7,6 +7,7 @@ import { FilterBar } from './components/FilterBar';
 import ProductCard from './components/ProductCard';
 import AdminPage from './pages/Admin';
 import { useProducts } from './hooks/useProducts';
+import { VIDEO_URLS } from './lib/videos';
 
 // Componente para la Home (Catálogo)
 const Catalog = () => {
@@ -32,7 +33,7 @@ const Catalog = () => {
 
       {/* SHOWCASE 1 — Narrativa urbana (introducción después del hero) */}
       <VideoShowcase
-        src="/videos/lifestyle-calle.webm"
+        src={VIDEO_URLS.lifestyle}
         eyebrow="La Calle es la Pasarela"
         title="Hecho para la Ciudad"
         description="Cada gorra nace del pulso urbano. Diseños pensados para moverse con vos, resistir el ritmo y marcar la diferencia en cada paso."
@@ -43,7 +44,7 @@ const Catalog = () => {
 
       {/* SHOWCASE 2 — Statement editorial/cinematográfico (antes del catálogo) */}
       <VideoShowcase
-        src="/videos/editorial.webm"
+        src={VIDEO_URLS.editorial}
         eyebrow="Movimiento Real"
         title="Que Hablen las Imágenes"
         description="Cada gorra cuenta una historia. Movimiento, actitud, carácter. Así se ven las colecciones Viclu en acción — sin filtros, sin excusas."
@@ -86,7 +87,7 @@ const Catalog = () => {
 
       {/* SHOWCASE 3 — Calidad profesional (detalle de producto post-catálogo) */}
       <VideoShowcase
-        src="/videos/producto-studio.webm"
+        src={VIDEO_URLS.producto}
         eyebrow="Atención al Detalle"
         title="Calidad que se Ve"
         description="Materiales seleccionados, bordados precisos y acabados que respetan la forma. Cada pieza pasa por un control estricto antes de salir."
@@ -95,7 +96,7 @@ const Catalog = () => {
 
       {/* SHOWCASE 4 — Variedad de estilos (cierre con CTA final) */}
       <VideoShowcase
-        src="/videos/variedad.webm"
+        src={VIDEO_URLS.variedad}
         eyebrow="Para Cada Estilo"
         title="Una para Cada Día"
         description="Del fitted clásico al trucker moderno, encontrá la gorra que combine con tu vibra. Variedad auténtica, sin relleno."
