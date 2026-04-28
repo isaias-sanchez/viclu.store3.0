@@ -151,7 +151,70 @@ export default function AdminPage() {
                 <div className="lg:col-span-2">
                     <h2 className="text-xl font-bold mb-4 text-white/90">Inventario Actual ({products.length})</h2>
 
-                    <div className="overflow-hidden rounded border border-white/10 bg-[#1A1A1A]">
+                    {/* MOBILE — cards apiladas (visible < md) */}
+                    <div className="md:hidden space-y-3">
+                        {products.map(product => (
+                            <div
+                                key={product.id}
+                                className="bg-[#1A1A1A] rounded border border-white/10 p-3 flex gap-3"
+                            >
+                                {/* Imagen */}
+                                <div className="w-16 h-16 bg-white/5 rounded overflow-hidden flex-shrink-0">
+                                    {product.image ? (
+                                        <img
+                                            src={product.image}
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-[10px] text-white/20">N/A</div>
+                                    )}
+                                </div>
+
+                                {/* Detalle */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="font-bold text-[#E5E4E2] truncate">{product.name}</div>
+                                    <div className="text-xs text-white/50 mb-2">{product.brand} • {product.stock} unds.</div>
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <span className="font-mono text-sm text-white/90">${product.price.toLocaleString()}</span>
+                                        <span className={`px-2 py-0.5 text-[10px] uppercase font-bold rounded-full ${product.active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
+                                            {product.active ? 'Activo' : 'Baja'}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Acciones — siempre visibles (apiladas vertical en mobile) */}
+                                <div className="flex flex-col gap-1 flex-shrink-0">
+                                    <button
+                                        onClick={() => toggleStatus(product.id)}
+                                        title={product.active ? "Dar de baja" : "Activar"}
+                                        aria-label={product.active ? "Dar de baja" : "Activar"}
+                                        className="p-2 hover:bg-white/10 rounded text-[#E5E4E2] transition-colors"
+                                    >
+                                        {product.active ? <Eye className="w-4 h-4" /> : <EyeOff className="w-4 h-4" />}
+                                    </button>
+                                    <button
+                                        onClick={() => { if (confirm('¿Eliminar permanentemente?')) removeProduct(product.id) }}
+                                        title="Eliminar"
+                                        aria-label="Eliminar"
+                                        className="p-2 hover:bg-red-500/20 rounded text-red-400 transition-colors"
+                                    >
+                                        <Trash2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                        {products.length === 0 && (
+                            <div className="p-8 text-center text-white/30 text-sm bg-[#1A1A1A] rounded border border-white/10">
+                                No hay productos en el inventario.
+                            </div>
+                        )}
+                    </div>
+
+                    {/* DESKTOP — tabla completa (visible ≥ md) */}
+                    <div className="hidden md:block overflow-hidden rounded border border-white/10 bg-[#1A1A1A]">
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="border-b border-white/10 bg-black/40 text-white/50 text-xs uppercase tracking-wider">
@@ -168,7 +231,7 @@ export default function AdminPage() {
                                         <td className="p-4">
                                             <div className="w-12 h-12 bg-white/5 rounded overflow-hidden">
                                                 {product.image ? (
-                                                    <img src={product.image} alt="" className="w-full h-full object-cover" />
+                                                    <img src={product.image} alt="" loading="lazy" decoding="async" className="w-full h-full object-cover" />
                                                 ) : (
                                                     <div className="w-full h-full flex items-center justify-center text-[10px] text-white/20">N/A</div>
                                                 )}

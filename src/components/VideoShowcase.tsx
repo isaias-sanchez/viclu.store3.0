@@ -27,17 +27,33 @@ export const VideoShowcase = ({
 }: VideoShowcaseProps) => {
     const videoRef = useRef<HTMLVideoElement>(null);
     const sectionRef = useRef<HTMLElement>(null);
-    const [inView, setInView] = useState(false);
+    // Visibilidad para entrada animada — empieza a fade-in 400px ANTES de entrar al viewport
+    // para que en scroll rápido la sección no aparezca vacía
+    const [revealed, setRevealed] = useState(false);
+    // Play/pause real del video — sólo cuando está realmente visible
+    const [playing, setPlaying] = useState(false);
 
-    // Intersection Observer: play cuando el video entra en viewport, pause cuando sale
     useEffect(() => {
         const section = sectionRef.current;
         const video = videoRef.current;
         if (!section || !video) return;
 
-        const observer = new IntersectionObserver(
+        // Observer #1 — REVEAL: con rootMargin grande para anticipar el fade-in
+        const revealObs = new IntersectionObserver(
             ([entry]) => {
-                setInView(entry.isIntersecting);
+                if (entry.isIntersecting) {
+                    setRevealed(true);
+                    revealObs.disconnect(); // una sola vez
+                }
+            },
+            { threshold: 0, rootMargin: '0px 0px 400px 0px' }
+        );
+        revealObs.observe(section);
+
+        // Observer #2 — PLAY/PAUSE: sólo cuando el video está realmente en pantalla
+        const playObs = new IntersectionObserver(
+            ([entry]) => {
+                setPlaying(entry.isIntersecting);
                 if (entry.isIntersecting) {
                     video.play().catch(() => {});
                 } else {
@@ -46,10 +62,17 @@ export const VideoShowcase = ({
             },
             { threshold: 0.25 }
         );
+        playObs.observe(section);
 
-        observer.observe(section);
-        return () => observer.disconnect();
+        return () => {
+            revealObs.disconnect();
+            playObs.disconnect();
+        };
     }, []);
+
+    // Mantener compatibilidad con la variable que usa el JSX abajo
+    const inView = revealed;
+    void playing; // evita warning de TS si se usa más adelante
 
     const isRight = align === 'right';
 
@@ -62,7 +85,7 @@ export const VideoShowcase = ({
                 <div className={`grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16 items-center ${isRight ? 'md:[&>*:first-child]:order-2' : ''}`}>
                     {/* Video */}
                     <div
-                        className={`relative aspect-[4/5] md:aspect-square rounded-sm overflow-hidden border border-white/10 bg-[#151515] transition-all duration-1000 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                        className={`relative aspect-[4/5] md:aspect-square rounded-sm overflow-hidden border border-white/10 bg-[#151515] transition-all duration-500 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                             }`}
                     >
                         <video
@@ -82,7 +105,7 @@ export const VideoShowcase = ({
 
                     {/* Texto */}
                     <div
-                        className={`transition-all duration-1000 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                        className={`transition-all duration-500 delay-200 ${inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
                             }`}
                     >
                         {eyebrow && (
