@@ -7,9 +7,18 @@ interface ProductFormProps {
     onSubmit: (product: Product) => void;
     initialData?: Partial<Product>;
     buttonText?: string;
+    /**
+     * Lista de categorías existentes (derivadas de los productos del inventario).
+     * Si está vacía, el formulario fuerza al usuario a crear una nueva categoría.
+     */
+    categories?: string[];
 }
 
-const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Producto" }: ProductFormProps) => {
+const NEW_CATEGORY_SENTINEL = '__new__';
+
+const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Producto", categories = [] }: ProductFormProps) => {
+    const defaultCategory = initialData.category || categories[0] || '';
+
     const [formData, setFormData] = useState<Partial<Product>>({
         name: '',
         brand: '',
@@ -19,9 +28,13 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
         color: '',
         image: null,
         active: true,
-        category: 'Hoodie',
+        category: defaultCategory,
         ...initialData
     });
+
+    // true cuando el usuario escogió "+ Crear nueva" en el select y está escribiendo el nombre
+    const [isCreatingCategory, setIsCreatingCategory] = useState(categories.length === 0);
+    const [newCategoryName, setNewCategoryName] = useState('');
 
     const [uploading, setUploading] = useState(false);
 
@@ -78,6 +91,17 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
             return;
         }
 
+        // Resolver la categoría final: si está creando una nueva, usar lo que escribió;
+        // si seleccionó una existente, usar el valor del select.
+        const resolvedCategory = isCreatingCategory
+            ? newCategoryName.trim()
+            : (formData.category || '').trim();
+
+        if (!resolvedCategory) {
+            alert("❌ La categoría es obligatoria. Escoge una existente o crea una nueva.");
+            return;
+        }
+
         const newProduct: Product = {
             id: formData.id || crypto.randomUUID(),
             name: formData.name,
@@ -88,7 +112,7 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
             color: formData.color || 'N/A',
             active: formData.active ?? true,
             image: formData.image || null, // Aquí irá la URL corta
-            category: formData.category || 'Hoodie'
+            category: resolvedCategory
         };
 
         onSubmit(newProduct);
@@ -96,8 +120,11 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
         if (!initialData.id) {
             setFormData({
                 name: '', brand: '', price: 0, stock: 1,
-                description: '', color: '', image: null, category: 'Hoodie'
+                description: '', color: '', image: null,
+                category: categories[0] || ''
             });
+            setIsCreatingCategory(categories.length === 0);
+            setNewCategoryName('');
         }
     };
 
@@ -181,6 +208,63 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
                         value={formData.stock}
                         onChange={e => setFormData({ ...formData, stock: Number(e.target.value) })}
                     />
+                </div>
+
+                {/* SELECTOR DE CATEGORÍA con opción de crear nueva inline */}
+                <div className="md:col-span-2 space-y-1">
+                    <label className="text-xs text-white/50 uppercase ml-1">Categoría *</label>
+                    {!isCreatingCategory ? (
+                        <select
+                            className="w-full p-3 bg-black border border-white/20 rounded text-white focus:border-[#E5E4E2] outline-none"
+                            value={formData.category || ''}
+                            onChange={(e) => {
+                                const val = e.target.value;
+                                if (val === NEW_CATEGORY_SENTINEL) {
+                                    setIsCreatingCategory(true);
+                                    setNewCategoryName('');
+                                } else {
+                                    setFormData({ ...formData, category: val });
+                                }
+                            }}
+                        >
+                            {categories.length === 0 && (
+                                <option value="" disabled>— Aún no hay categorías —</option>
+                            )}
+                            {categories.map((cat) => (
+                                <option key={cat} value={cat}>{cat}</option>
+                            ))}
+                            <option value={NEW_CATEGORY_SENTINEL}>＋ Crear nueva categoría…</option>
+                        </select>
+                    ) : (
+                        <div className="flex gap-2">
+                            <input
+                                className="flex-1 p-3 bg-[#111] border border-[#E5E4E2] rounded text-white focus:outline-none"
+                                value={newCategoryName}
+                                onChange={(e) => setNewCategoryName(e.target.value)}
+                                placeholder="Ej: Camioneras, Beisboleras, Snapback…"
+                                autoFocus
+                            />
+                            {categories.length > 0 && (
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        setIsCreatingCategory(false);
+                                        setNewCategoryName('');
+                                        if (!formData.category) setFormData({ ...formData, category: categories[0] });
+                                    }}
+                                    className="px-3 text-xs text-white/60 hover:text-white border border-white/20 rounded"
+                                    title="Cancelar — usar una categoría existente"
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            )}
+                        </div>
+                    )}
+                    <p className="text-[10px] text-white/40 ml-1 mt-1">
+                        {isCreatingCategory
+                            ? 'Esta categoría se creará al guardar el producto.'
+                            : 'Las categorías agrupan productos en el catálogo público.'}
+                    </p>
                 </div>
 
                 <div className="md:col-span-2 space-y-1">

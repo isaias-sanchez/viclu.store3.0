@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Session } from '@supabase/supabase-js';
 import { useProducts } from '../hooks/useProducts';
 import { supabase } from '../lib/supabaseClient';
-import { Trash2, Eye, EyeOff, Plus, LogOut, Loader2 } from 'lucide-react';
+import { Trash2, Eye, EyeOff, Plus, LogOut, Loader2, Tag } from 'lucide-react';
 import type { Product } from '../types/product';
 
 import ProductForm from '../components/ProductForm';
@@ -14,7 +14,38 @@ export default function AdminPage() {
     const [password, setPassword] = useState('');
     const [loginError, setLoginError] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState(false);
-    const { products, addProduct, removeProduct, toggleStatus } = useProducts();
+    const { products, addProduct, removeProduct, toggleStatus, removeProductsByCategory } = useProducts();
+
+    // Categorías derivadas de los productos + conteo por categoría
+    const categoryStats = useMemo(() => {
+        const map = new Map<string, number>();
+        for (const p of products) {
+            const cat = (p.category || '').trim();
+            if (!cat) continue;
+            map.set(cat, (map.get(cat) || 0) + 1);
+        }
+        return Array.from(map.entries())
+            .map(([name, count]) => ({ name, count }))
+            .sort((a, b) => a.name.localeCompare(b.name));
+    }, [products]);
+
+    const categories = useMemo(() => categoryStats.map(c => c.name), [categoryStats]);
+
+    const handleDeleteCategory = async (category: string, count: number) => {
+        const ok = confirm(
+            count === 0
+                ? `¿Eliminar la categoría "${category}"?`
+                : `⚠️ Esta categoría contiene ${count} producto${count === 1 ? '' : 's'}.\n\nAl eliminar la categoría, esos ${count} producto${count === 1 ? '' : 's'} se borrarán permanentemente.\n\n¿Continuar?`
+        );
+        if (!ok) return;
+
+        const result = await removeProductsByCategory(category);
+        if (result.ok) {
+            alert(`✅ Categoría "${category}" eliminada (${result.count} producto${result.count === 1 ? '' : 's'} borrado${result.count === 1 ? '' : 's'}).`);
+        } else {
+            alert(`❌ Error eliminando categoría: ${result.error || 'desconocido'}`);
+        }
+    };
 
     // Restaurar sesión al montar + escuchar cambios de auth
     useEffect(() => {
@@ -139,12 +170,58 @@ export default function AdminPage() {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-1">
-                    <div className="bg-[#1A1A1A] p-6 rounded border border-white/10 sticky top-24">
+                <div className="lg:col-span-1 space-y-6">
+                    <div className="bg-[#1A1A1A] p-6 rounded border border-white/10">
                         <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-white/90">
                             <Plus className="w-5 h-5" /> Nuevo Producto
                         </h2>
-                        <ProductForm onSubmit={handleSaveProduct} buttonText="Guardar en Inventario" />
+                        <ProductForm
+                            onSubmit={handleSaveProduct}
+                            buttonText="Guardar en Inventario"
+                            categories={categories}
+                        />
+                    </div>
+
+                    {/* PANEL DE CATEGORÍAS */}
+                    <div className="bg-[#1A1A1A] p-6 rounded border border-white/10">
+                        <h2 className="text-xl font-bold mb-2 flex items-center gap-2 text-white/90">
+                            <Tag className="w-5 h-5" /> Categorías
+                        </h2>
+                        <p className="text-xs text-white/40 mb-5">
+                            {categoryStats.length === 0
+                                ? 'Aún no hay categorías. Se crean automáticamente al guardar un producto con una categoría nueva.'
+                                : `${categoryStats.length} categoría${categoryStats.length === 1 ? '' : 's'} en uso. Eliminar una categoría borra todos sus productos.`}
+                        </p>
+
+                        {categoryStats.length > 0 && (
+                            <ul className="space-y-2">
+                                {categoryStats.map(({ name, count }) => (
+                                    <li
+                                        key={name}
+                                        className="flex items-center justify-between gap-3 bg-black/30 border border-white/5 rounded px-3 py-2"
+                                    >
+                                        <div className="min-w-0 flex-1">
+                                            <div className="font-medium text-[#E5E4E2] truncate">{name}</div>
+                                            <div className="text-[11px] text-white/40">
+                                                {count} producto{count === 1 ? '' : 's'}
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={() => handleDeleteCategory(name, count)}
+                                            title={`Eliminar categoría "${name}"`}
+                                            aria-label={`Eliminar categoría ${name}`}
+                                            className="p-2 hover:bg-red-500/20 rounded text-red-400 transition-colors flex-shrink-0"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+
+                        <p className="text-[10px] text-white/30 mt-4 leading-relaxed">
+                            💡 Para crear una categoría, escógela en el dropdown del formulario o usa "+ Crear nueva categoría…" al guardar un producto.
+                        </p>
                     </div>
                 </div>
 
@@ -176,7 +253,12 @@ export default function AdminPage() {
                                 {/* Detalle */}
                                 <div className="flex-1 min-w-0">
                                     <div className="font-bold text-[#E5E4E2] truncate">{product.name}</div>
-                                    <div className="text-xs text-white/50 mb-2">{product.brand} • {product.stock} unds.</div>
+                                    <div className="text-xs text-white/50 mb-1">{product.brand} • {product.stock} unds.</div>
+                                    {product.category && (
+                                        <div className="inline-block text-[10px] uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 rounded px-1.5 py-0.5 mb-2">
+                                            {product.category}
+                                        </div>
+                                    )}
                                     <div className="flex items-center gap-2 flex-wrap">
                                         <span className="font-mono text-sm text-white/90">${product.price.toLocaleString()}</span>
                                         <span className={`px-2 py-0.5 text-[10px] uppercase font-bold rounded-full ${product.active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}`}>
@@ -240,6 +322,11 @@ export default function AdminPage() {
                                         <td className="p-4">
                                             <div className="font-bold text-[#E5E4E2]">{product.name}</div>
                                             <div className="text-xs text-white/50">{product.brand} • {product.stock} unds.</div>
+                                            {product.category && (
+                                                <div className="inline-block text-[10px] uppercase tracking-wider text-white/60 bg-white/5 border border-white/10 rounded px-1.5 py-0.5 mt-1.5">
+                                                    {product.category}
+                                                </div>
+                                            )}
                                         </td>
                                         <td className="p-4 text-right font-mono text-sm">
                                             ${product.price.toLocaleString()}

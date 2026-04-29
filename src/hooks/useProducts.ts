@@ -88,12 +88,32 @@ export const useProducts = () => {
         }
     };
 
+    // 5. ELIMINAR TODOS LOS PRODUCTOS DE UNA CATEGORÍA (cascada — usado al borrar categoría)
+    const removeProductsByCategory = async (category: string): Promise<{ ok: boolean; count: number; error?: string }> => {
+        // Contar antes para reportar
+        const targetCount = products.filter(p => p.category === category).length;
+
+        const { error } = await supabase
+            .from('products')
+            .delete()
+            .eq('category', category);
+
+        if (error) {
+            console.error('Error eliminando productos de categoría:', error);
+            return { ok: false, count: 0, error: error.message };
+        }
+
+        await fetchProducts();
+        return { ok: true, count: targetCount };
+    };
+
     return {
         products,
         loading,
         addProduct,
         removeProduct,
         toggleStatus,
+        removeProductsByCategory,
         refreshProducts: fetchProducts // Exponemos esto por si queremos recargar manual
     };
 };
