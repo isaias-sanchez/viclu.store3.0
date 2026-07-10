@@ -17,8 +17,20 @@ export function formatPrice(price: number): string {
 }
 
 export function generateWhatsAppLink(product: Product) {
-    const text = encodeURIComponent(`Hola, estoy interesado en: ${product.name} - ${formatPrice(product.price)}`);
-    return `https://wa.me/${WHATSAPP_PHONE}?text=${text}`;
+    const lines = [`Hola, estoy interesado en: ${product.name} - ${formatPrice(product.price)}`];
+
+    const detalles: string[] = [];
+    if (product.category) detalles.push(`Categoría: ${product.category}`);
+    if (product.color && product.color !== 'N/A') detalles.push(`Color: ${product.color}`);
+    if (detalles.length > 0) lines.push(detalles.join(' • '));
+
+    // WhatsApp no permite adjuntar archivos vía wa.me, pero al incluir la URL
+    // pública de la imagen el chat muestra la foto como vista previa del link.
+    if (product.image && product.image.startsWith('http')) {
+        lines.push('', `📷 Foto del modelo: ${product.image}`);
+    }
+
+    return `https://wa.me/${WHATSAPP_PHONE}?text=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 /**
