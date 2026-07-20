@@ -1,0 +1,41 @@
+# Viclu Store — robots.txt
+# Buscadores tradicionales
+User-agent: *
+Allow: /
+Disallow: /admin
+
+# ===== Motores de IA / GEO (permitidos explícitamente para ser citados) =====
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-Web
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+Sitemap: https://viclu.store/sitemap.xml
