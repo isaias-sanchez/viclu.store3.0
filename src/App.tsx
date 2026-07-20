@@ -5,6 +5,7 @@ import Hero from './components/Hero';
 import VideoShowcase from './components/VideoShowcase';
 import { FilterBar } from './components/FilterBar';
 import ProductCard from './components/ProductCard';
+import SeoStructuredData from './components/SeoStructuredData';
 import AdminPage from './pages/Admin';
 import { useProducts } from './hooks/useProducts';
 import { VIDEO_URLS } from './lib/videos';
@@ -29,6 +30,7 @@ const Catalog = () => {
 
   return (
     <Layout>
+      <SeoStructuredData products={products} />
       <Hero />
 
       {/* SHOWCASE 1 — Narrativa urbana (introducción después del hero) */}

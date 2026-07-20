@@ -16,6 +16,20 @@ export default function AdminPage() {
     const [submitting, setSubmitting] = useState(false);
     const { products, addProduct, removeProduct, toggleStatus, removeProductsByCategory } = useProducts();
 
+    // El panel de administración no debe ser indexado por buscadores.
+    useEffect(() => {
+        const meta = document.createElement('meta');
+        meta.name = 'robots';
+        meta.content = 'noindex, nofollow';
+        document.head.appendChild(meta);
+        const prevTitle = document.title;
+        document.title = 'Admin — Viclu Store';
+        return () => {
+            meta.remove();
+            document.title = prevTitle;
+        };
+    }, []);
+
     // Categorías derivadas de los productos + conteo por categoría
     const categoryStats = useMemo(() => {
         const map = new Map<string, number>();
