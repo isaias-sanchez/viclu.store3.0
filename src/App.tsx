@@ -1,127 +1,75 @@
-import { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useState, useEffect, lazy, Suspense } from 'react';
+import { Routes, Route, useParams, useLocation, Link } from 'react-router-dom';
+import { Search, ArrowLeft, MessageCircle, Truck, ArrowUpRight } from 'lucide-react';
 import { Layout } from './components/Layout';
 import Hero from './components/Hero';
-import VideoShowcase from './components/VideoShowcase';
+import CityStory from './components/CityStory';
+import StoreFaq from './components/StoreFaq';
 import { FilterBar } from './components/FilterBar';
 import ProductCard from './components/ProductCard';
-import SeoStructuredData from './components/SeoStructuredData';
-import AdminPage from './pages/Admin';
+import PageSeo from './components/PageSeo';
 import { useProducts } from './hooks/useProducts';
-import { VIDEO_URLS } from './lib/videos';
+import { categoryPath, getCategories, productName, slugify, productImage, productSrcSet } from './lib/catalog';
+import { formatPrice, generateWhatsAppLink } from './lib/utils';
+import { WHATSAPP_PHONE } from './lib/constants';
 
-// Componente para la Home (Catálogo)
-const Catalog = () => {
-  const { products } = useProducts();
-  const [category, setCategory] = useState<string>('All');
+const AdminPage = lazy(() => import('./pages/Admin'));
 
-  const availableProducts = products.filter(p => p.active && p.stock > 0);
-
-  const visibleProducts = category === 'All'
-    ? availableProducts
-    : availableProducts.filter(p => p.category === category);
-
-  const categories = Array.from(new Set(availableProducts.map(p => p.category))).sort();
-
-  // Dividir productos en 2 bloques para intercalar videos narrativos
-  const half = Math.ceil(visibleProducts.length / 2);
-  const firstBlock = visibleProducts.slice(0, half);
-  const secondBlock = visibleProducts.slice(half);
-
-  return (
-    <Layout>
-      <SeoStructuredData products={products} />
-      <Hero />
-
-      {/* SHOWCASE 1 — Narrativa urbana (introducción después del hero) */}
-      <VideoShowcase
-        src={VIDEO_URLS.lifestyle}
-        eyebrow="La Calle es la Pasarela"
-        title="Hecho para la Ciudad"
-        description="Cada gorra nace del pulso urbano. Diseños pensados para moverse con vos, resistir el ritmo y marcar la diferencia en cada paso."
-        ctaHref="#catalogo"
-        ctaLabel="Explorar Colección"
-        align="left"
-      />
-
-      {/* SHOWCASE 2 — Statement editorial/cinematográfico (antes del catálogo) */}
-      <VideoShowcase
-        src={VIDEO_URLS.editorial}
-        eyebrow="Movimiento Real"
-        title="Que Hablen las Imágenes"
-        description="Cada gorra cuenta una historia. Movimiento, actitud, carácter. Así se ven las colecciones Viclu en acción — sin filtros, sin excusas."
-        align="right"
-      />
-
-      <FilterBar
-        categories={categories}
-        selectedCategory={category}
-        onSelectCategory={setCategory}
-      />
-
-      <main className="container mx-auto px-4 py-16" id="catalogo">
-        <h2 className="text-3xl md:text-4xl font-display text-[#E5E4E2] mb-12 text-center uppercase tracking-wider">
-          Colección Disponible
-        </h2>
-
-        {visibleProducts.length > 0 ? (
-          <>
-            {/* Primera mitad del catálogo */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {firstBlock.map((product) => (
-                <ProductCard key={product.id} product={product} />
-              ))}
-            </div>
-
-            {/* Segunda mitad (si hay) */}
-            {secondBlock.length > 0 && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-                {secondBlock.map((product) => (
-                  <ProductCard key={product.id} product={product} />
-                ))}
-              </div>
-            )}
-          </>
-        ) : (
-          <p className="text-center text-gray-500 py-20">No hay productos disponibles en este momento.</p>
-        )}
-      </main>
-
-      {/* SHOWCASE 3 — Calidad profesional (detalle de producto post-catálogo) */}
-      <VideoShowcase
-        src={VIDEO_URLS.producto}
-        eyebrow="Atención al Detalle"
-        title="Calidad que se Ve"
-        description="Materiales seleccionados, bordados precisos y acabados que respetan la forma. Cada pieza pasa por un control estricto antes de salir."
-        align="left"
-      />
-
-      {/* SHOWCASE 4 — Variedad de estilos (cierre con CTA final) */}
-      <VideoShowcase
-        src={VIDEO_URLS.variedad}
-        eyebrow="Para Cada Estilo"
-        title="Una para Cada Día"
-        description="Del fitted clásico al trucker moderno, encontrá la gorra que combine con tu vibra. Variedad auténtica, sin relleno."
-        ctaHref="#catalogo"
-        ctaLabel="Ver Todas"
-        align="right"
-      />
-    </Layout>
-  );
-};
-
-function App() {
-  return (
-    <BrowserRouter>
-      {/* Capa de textura global */}
-      <div className="noise-overlay" />
-
-      <Routes>
-        <Route path="/" element={<Catalog />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
-    </BrowserRouter>
-  );
+function Catalog() {
+  const { products, loading, error, refreshProducts } = useProducts();
+  const { categorySlug } = useParams();
+  const [search, setSearch] = useState('');
+  const categories = getCategories(products);
+  const category = categories.find(cat => slugify(cat) === categorySlug);
+  if (categorySlug && !category && !loading) return <NotFound />;
+  const available = products.filter(p => p.active && p.stock > 0);
+  const visible = available.filter(p => (!category || p.category === category) && (!search || slugify(`${p.name} ${p.description} ${p.brand} ${p.color}`).includes(slugify(search))));
+  return <Layout>
+    <PageSeo category={category} />
+    {!categorySlug && <Hero />}
+    <section className={`catalog-section site-container ${categorySlug ? 'collection-page' : ''}`} id="catalogo">
+      <div className="catalog-heading"><div>{categorySlug && <Link to="/#catalogo" className="breadcrumb"><ArrowLeft size={14} /> Todas las gorras</Link>}<p className="eyebrow">ELIGE TU PRÓXIMA HISTORIA</p>{categorySlug ? <h1>GORRAS {category || categorySlug}</h1> : <h2>COLECCIÓN DISPONIBLE<span className="heading-spark" aria-hidden="true">✦</span></h2>}</div><span className="catalog-count">{visible.length} {visible.length === 1 ? 'MODELO' : 'MODELOS'} / TU ESTILO</span></div>
+      {category && <p className="collection-description">Explora las gorras de la colección {category} de VICLU.STORE. Consulta cada modelo por WhatsApp y coordina tu envío dentro de Colombia.</p>}
+      <div className="catalog-toolbar"><FilterBar categories={categories} selectedCategory={category} /><label className="catalog-search" id="buscar"><Search size={15} /><span className="sr-only">Buscar en la colección</span><input type="search" placeholder="Busca tu estilo" value={search} onChange={e => setSearch(e.target.value)} /></label></div>
+      {error && <div className="inventory-notice" role="status">No pudimos actualizar la disponibilidad. Confirma el stock por WhatsApp. <button onClick={() => void refreshProducts()}>Reintentar</button></div>}
+      {visible.length > 0 ? <div className="product-grid">{visible.map(product => <ProductCard key={product.id} product={product} />)}</div> : <div className="empty-collection" role="status"><h3>{loading ? 'Cargando colección…' : 'No encontramos ese estilo'}</h3><p>{search ? 'Prueba con otra marca, color o modelo.' : 'Consulta por WhatsApp los próximos modelos disponibles.'}</p>{search && <button className="button button-outline" onClick={() => setSearch('')}>Ver todos los modelos</button>}</div>}
+      <div className="catalog-bottom"><span>PIEZAS REALES. ACTITUD PROPIA.</span><a href={`https://wa.me/${WHATSAPP_PHONE}`} target="_blank" rel="noopener noreferrer">¿No sabes cuál elegir? Hablemos <ArrowUpRight size={15} /></a></div>
+    </section>
+    <CityStory />
+    <StoreFaq />
+  </Layout>;
 }
 
-export default App;
+function ProductPage() {
+  const { productSlug } = useParams();
+  const { products, loading, error } = useProducts();
+  const id = productSlug?.match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)?.[0];
+  const product = products.find(p => p.id === id && p.active);
+  if (!product) return loading ? <Layout><p className="loading-product">Cargando modelo…</p></Layout> : <NotFound />;
+  const available = product.stock > 0;
+  return <Layout><PageSeo product={product} />
+    <div className="product-detail site-container"><nav className="breadcrumb" aria-label="Ruta de navegación"><Link to="/#catalogo">Colección</Link><span>/</span><Link to={categoryPath(product.category)}>{product.category}</Link></nav><div className="product-detail-grid"><div className="detail-image">{product.image && <img src={productImage(product, 'detail')} srcSet={productSrcSet(product)} sizes="(max-width: 580px) 100vw, 600px" alt={productName(product)} width="900" height="900" fetchPriority="high" />}</div><div className="detail-copy"><p className="eyebrow">{product.category} / {product.brand.trim()}</p><h1>{productName(product)}</h1><p className="detail-price">{formatPrice(product.price)} <span>COP</span></p><p className="stock-label"><span className="orange-dot" />{error ? 'Confirma disponibilidad por WhatsApp' : available ? 'Disponible para consultar' : 'Actualmente agotada'}</p><dl><div><dt>Marca</dt><dd>{product.brand.trim()}</dd></div><div><dt>Colección</dt><dd>{product.category}</dd></div>{product.color && product.color.trim() !== 'N/A' && <div><dt>Color</dt><dd>{product.color.trim()}</dd></div>}{product.description && <div><dt>Modelo</dt><dd>{product.description.trim()}</dd></div>}</dl><a className="button button-orange" href={generateWhatsAppLink(product)} target="_blank" rel="noopener noreferrer"><MessageCircle size={18} />{available ? 'Consultar por WhatsApp' : 'Consultar próximos ingresos'}</a><p className="detail-shipping"><Truck size={17} /> Envíos en Colombia. Costo y entrega a confirmar.</p><p className="detail-note">Confirma medidas, ajuste, disponibilidad y forma de pago con la tienda antes de realizar tu pedido.</p></div></div><div className="related-products"><h2>OTRAS HISTORIAS PARA LLEVAR</h2><div className="product-grid">{products.filter(p => p.active && p.stock > 0 && p.id !== product.id && p.category === product.category).slice(0, 4).map(p => <ProductCard key={p.id} product={p} />)}</div></div></div><StoreFaq /></Layout>;
+}
+
+function NotFound() {
+  return <Layout><PageSeo notFound /><section className="not-found site-container"><p className="eyebrow">404 / FUERA DE LA COLECCIÓN</p><h1>ESTA HISTORIA<br />NO ESTÁ AQUÍ.</h1><p>El enlace no existe o el modelo ya no está disponible.</p><Link to="/" className="button button-light">Volver a la tienda <ArrowUpRight size={16} /></Link></section></Layout>;
+}
+
+function ScrollToLocation() {
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (hash) {
+        const target = document.getElementById(hash.slice(1));
+        target?.scrollIntoView();
+        if (hash === '#buscar') target?.querySelector('input')?.focus({ preventScroll: true });
+      } else window.scrollTo({ top: 0, behavior: 'instant' });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [pathname, hash]);
+  return null;
+}
+
+export default function App() {
+  return <><ScrollToLocation /><Routes><Route path="/" element={<Catalog />} /><Route path="/coleccion/:categorySlug" element={<Catalog />} /><Route path="/gorras/:productSlug" element={<ProductPage />} /><Route path="/admin" element={<Suspense fallback={<p className="loading-product">Cargando administración…</p>}><AdminPage /></Suspense>} /><Route path="*" element={<NotFound />} /></Routes></>;
+}

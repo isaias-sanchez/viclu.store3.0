@@ -1,0 +1,9 @@
+# Prompts de campaña · herramienta integrada image_gen
+
+## Hero · public/images/halloween-hero.webp
+
+Use case: ads-marketing. Asset type: photographic website Halloween campaign hero background for VICLU.STORE, landscape panoramic 3:2 or wider. Primary request: premium urban streetwear baseball cap editorial, inspired by a black/orange Halloween storefront. A single black cotton baseball cap with tonal embroidery and a small burnt-orange abstract V monogram rests on gritty wet asphalt on the RIGHT half, brim extending toward lower right. Behind it a weathered concrete alley wall with a large orange spray-painted grinning jack-o-lantern symbol, dripping paint, dark moody atmospheric alley, subtle warm amber light grazing fabric. LEFT half has very dark charcoal rough wall and negative space for typography added in code. Materials: realistic textile stitching and worn pavement. Cinematic fashion photography, realistic not illustration, understated Halloween, deep black, desaturated brown, burnt orange. No text, no slogans, no webpage, no human, no pumpkins on ground, no watermark, no LA or other brand logos. This is campaign imagery, not an inventory product photograph.
+
+## Lifestyle · public/images/city-poster.webp
+
+Use case: photorealistic-natural. Asset type: widescreen full-bleed streetwear lifestyle campaign photo for VICLU.STORE Halloween website. A young adult man seen from behind, wearing a black baseball cap backwards and a plain black hoodie, walking in a gritty Colombian city alley at dusk. Man on RIGHT half facing away, dark alley on LEFT half has generous negative space for HTML headline. Warm orange streetlights and subtle burnt orange light on textured brick and concrete, moody realistic fashion editorial, gentle film grain, muted warm brown, black, no purple. No readable text, no logos, no watermark. Landscape cinematic 16:9 framing. No collage, no webpage.

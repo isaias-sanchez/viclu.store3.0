@@ -1,6 +1,7 @@
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { WHATSAPP_PHONE } from './constants';
+import { productName } from './catalog';
 import type { Product } from '../types/product';
 
 export function cn(...inputs: ClassValue[]) {
@@ -17,7 +18,7 @@ export function formatPrice(price: number): string {
 }
 
 export function generateWhatsAppLink(product: Product) {
-    const lines = [`Hola, estoy interesado en: ${product.name} - ${formatPrice(product.price)}`];
+    const lines = [`Hola, estoy interesado en: ${productName(product)} - ${formatPrice(product.price)} COP`];
 
     const detalles: string[] = [];
     if (product.category) detalles.push(`Categoría: ${product.category}`);

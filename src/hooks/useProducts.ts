@@ -1,26 +1,30 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import type { Product } from '../types/product';
+import { catalogSnapshot } from '../lib/catalog';
 
 export const useProducts = () => {
-    const [products, setProducts] = useState<Product[]>([]);
+    const [products, setProducts] = useState<Product[]>(catalogSnapshot);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
     // 1. CARGAR PRODUCTOS DESDE LA NUBE (Supabase)
     const fetchProducts = async () => {
         setLoading(true);
-        const { data, error } = await supabase
-            .from('products')
-            .select('*')
-            .order('created_at', { ascending: false }); // Los más nuevos primero
-
-        if (error) {
-            console.error('Error cargando productos:', error);
-            alert('Error de conexión con el inventario');
-        } else {
-            setProducts(data as Product[] || []);
+        try {
+            const { data, error: fetchError } = await supabase
+                .from('products')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .order('id', { ascending: true });
+            if (fetchError) throw fetchError;
+            setProducts((data as Product[]) || []);
+            setError(null);
+        } catch {
+            setError('No se pudo actualizar el inventario.');
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
 
     // Cargar al iniciar
@@ -110,6 +114,7 @@ export const useProducts = () => {
     return {
         products,
         loading,
+        error,
         addProduct,
         removeProduct,
         toggleStatus,

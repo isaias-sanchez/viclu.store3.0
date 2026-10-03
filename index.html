@@ -1,148 +1,23 @@
 <!doctype html>
 <html lang="es-CO">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <!-- ===== SEO PRIMARIO ===== -->
-  <title>Viclu Store | Gorras Premium de Estilo Urbano — Colombia</title>
-  <meta name="description"
-    content="Viclu Store: la colección definitiva de gorras premium. Camioneras, beisboleras, trucker y snapback de estilo urbano. Compra fácil por WhatsApp con envíos en Colombia." />
-  <meta name="keywords"
-    content="gorras premium, gorras camioneras, gorras beisboleras, gorras trucker, snapback, gorras estilo urbano, viclu store, gorras Colombia, comprar gorras" />
-  <meta name="author" content="Viclu Store" />
-  <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-  <meta name="theme-color" content="#0F0F0F" />
-  <link rel="canonical" href="https://viclu.store/" />
-
-  <!-- Idioma y región -->
-  <meta name="language" content="Spanish" />
-  <meta name="geo.region" content="CO" />
-  <meta name="geo.placename" content="Colombia" />
-
-  <!-- ===== OPEN GRAPH (Facebook / WhatsApp / LinkedIn) ===== -->
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Viclu Store" />
-  <meta property="og:title" content="Viclu Store | Gorras Premium de Estilo Urbano" />
-  <meta property="og:description"
-    content="La colección definitiva de gorras premium. Camioneras, beisboleras, trucker y snapback. Compra fácil por WhatsApp con envíos en Colombia." />
-  <meta property="og:url" content="https://viclu.store/" />
-  <meta property="og:image" content="https://viclu.store/viclu-icon.png" />
-  <meta property="og:image:alt" content="Viclu Store — Gorras premium de estilo urbano" />
+  <!-- page-head -->
+  <meta name="theme-color" content="#0b0b0b" />
+  <meta property="og:site_name" content="VICLU.STORE" />
   <meta property="og:locale" content="es_CO" />
-
-  <!-- ===== TWITTER / X CARD ===== -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Viclu Store | Gorras Premium de Estilo Urbano" />
-  <meta name="twitter:description"
-    content="La colección definitiva de gorras premium. Camioneras, beisboleras, trucker y snapback. Envíos en Colombia." />
-  <meta name="twitter:image" content="https://viclu.store/viclu-icon.png" />
-
-  <!-- ===== ICONOS / PWA ===== -->
   <link rel="icon" type="image/png" href="/viclu-icon.png" />
   <link rel="apple-touch-icon" href="/viclu-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
-
-  <!-- ===== RENDIMIENTO (mejora Core Web Vitals → SEO) ===== -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="preconnect" href="https://mvvmmewieigfslvqroia.supabase.co" crossorigin />
-  <link rel="dns-prefetch" href="https://mvvmmewieigfslvqroia.supabase.co" />
-
-  <!-- ===== DATOS ESTRUCTURADOS (clave para Google Rich Results y motores de IA / GEO) ===== -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "OnlineStore",
-        "@id": "https://viclu.store/#store",
-        "name": "Viclu Store",
-        "url": "https://viclu.store/",
-        "logo": "https://viclu.store/viclu-icon.png",
-        "image": "https://viclu.store/viclu-icon.png",
-        "description": "Tienda de gorras premium de estilo urbano. Modelos camioneras, beisboleras, trucker y snapback, con compra directa por WhatsApp y envíos en Colombia.",
-        "slogan": "Estilo Urbano Premium",
-        "priceRange": "$$",
-        "currenciesAccepted": "COP",
-        "paymentAccepted": "Efectivo, Transferencia, WhatsApp",
-        "areaServed": {
-          "@type": "Country",
-          "name": "Colombia"
-        },
-        "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "sales",
-          "telephone": "+573155928724",
-          "availableLanguage": "Spanish"
-        },
-        "sameAs": [
-          "https://www.instagram.com/viclustore07"
-        ]
-      },
-      {
-        "@type": "WebSite",
-        "@id": "https://viclu.store/#website",
-        "url": "https://viclu.store/",
-        "name": "Viclu Store",
-        "inLanguage": "es-CO",
-        "publisher": { "@id": "https://viclu.store/#store" }
-      },
-      {
-        "@type": "FAQPage",
-        "@id": "https://viclu.store/#faq",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "¿Qué vende Viclu Store?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Viclu Store vende gorras premium de estilo urbano: camioneras, beisboleras, trucker y snapback. Cada modelo se elige por su calidad de materiales, bordado y acabado."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Cómo compro una gorra en Viclu Store?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Elige la gorra que te guste en el catálogo y pulsa el botón Consultar. Se abre un chat de WhatsApp con la información y la foto del modelo para coordinar el pedido."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "¿Viclu Store hace envíos en Colombia?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Sí. Viclu Store coordina envíos dentro de Colombia. Los detalles de envío y pago se acuerdan directamente por WhatsApp al hacer la consulta."
-            }
-          }
-        ]
-      }
-    ]
-  }
-  </script>
 </head>
-
 <body>
-  <!-- Contenido rastreable para buscadores y motores de IA que no ejecutan JavaScript.
-       React reemplaza este bloque al montar la aplicación. -->
-  <div id="root">
-    <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0F0F0F;color:#E5E4E2;font-family:system-ui,-apple-system,sans-serif;text-align:center;padding:2rem;">
-      <h1 style="font-size:2.5rem;letter-spacing:-0.02em;margin:0 0 1rem;">Viclu Store</h1>
-      <p style="max-width:32rem;line-height:1.6;opacity:0.85;margin:0 0 1.5rem;">
-        Gorras premium de estilo urbano. La colección definitiva de gorras
-        <strong>camioneras</strong>, <strong>beisboleras</strong>, <strong>trucker</strong> y
-        <strong>snapback</strong>, diseñadas para destacar en las calles. Compra fácil por WhatsApp con envíos en Colombia.
-      </p>
-      <p style="opacity:0.6;">Cargando la colección…</p>
-      <noscript>
-        <p style="opacity:0.85;">
-          Para ver el catálogo completo con fotos y precios, activa JavaScript o escríbenos por
-          <a href="https://wa.me/573155928724" style="color:#E5E4E2;">WhatsApp</a>.
-        </p>
-      </noscript>
-    </div>
-  </div>
+  <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
-
 </html>
