@@ -1,13 +1,16 @@
 import { useState, type ReactNode } from 'react';
-import { Instagram, Menu, X, Search, UserRound, MessageCircle, Truck, ShieldCheck, ScanFace, Pause, Play, ArrowUpRight } from 'lucide-react';
+import { Instagram, Menu, X, Search, UserRound, MessageCircle, Truck, ShieldCheck, ScanFace, Pause, Play } from 'lucide-react';
 import { HalloweenMark, WebCorner, HangingSpider } from './HalloweenArt';
-import { Link } from 'react-router-dom';
+import SpiritLantern from './SpiritLantern';
+import CampaignButton from './CampaignButton';
+import { Link, useLocation } from 'react-router-dom';
 import { APP_CONFIG, WHATSAPP_PHONE } from '../lib/constants';
 import { catalogSnapshot, categoryPath, getCategories } from '../lib/catalog';
 
 export function Layout({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [effectsPaused, setEffectsPaused] = useState(false);
+  const { pathname } = useLocation();
   const categories = getCategories(catalogSnapshot);
   const closeMenu = () => setMenuOpen(false);
   return (
@@ -15,11 +18,12 @@ export function Layout({ children }: { children: ReactNode }) {
       <a className="skip-link" href="#contenido">Saltar al contenido</a>
       <div className="announcement"><span>✦ ESPECIAL HALLOWEEN</span><span className="announcement-divider">/</span><span>ENVÍOS A TODA COLOMBIA</span><span className="announcement-desktop">/ OCTUBRE 2026 ✦</span></div>
       <header className="store-header">
+        <div className="header-atmosphere" aria-hidden="true"><WebCorner className="header-web" /><div className="header-glow" /><div className="header-scan" /></div>
         <div className="header-inner site-container">
-          <Link className="wordmark" to="/" aria-label="VICLU.STORE, inicio" onClick={closeMenu}>VICLU<span>.STORE</span></Link>
+          <Link className="wordmark header-brand" to="/" aria-label="VICLU.STORE, inicio" onClick={closeMenu}><span className="brand-emblem"><HalloweenMark kind="pumpkin" /></span><span className="brand-name">VICLU<span>.STORE</span><small>ESPECIAL HALLOWEEN</small></span></Link>
           <nav className="desktop-nav" aria-label="Colecciones">
-            <Link to="/#catalogo">Todos</Link>
-            {categories.map(cat => <Link key={cat} to={categoryPath(cat)}>{cat}</Link>)}
+            <Link to="/#catalogo" aria-current={pathname === '/' ? 'page' : undefined}>Todos</Link>
+            {categories.map(cat => <Link key={cat} to={categoryPath(cat)} aria-current={pathname === categoryPath(cat) ? 'page' : undefined}>{cat}</Link>)}
           </nav>
           <div className="header-actions">
             <button className="icon-link motion-toggle" aria-label={effectsPaused ? 'Reanudar animaciones' : 'Pausar animaciones'} aria-pressed={effectsPaused} onClick={() => setEffectsPaused(!effectsPaused)}>{effectsPaused ? <Play size={16} /> : <Pause size={16} />}</button>
@@ -33,8 +37,8 @@ export function Layout({ children }: { children: ReactNode }) {
       </header>
       <main id="contenido">{children}</main>
       <section className="trust-strip site-container" aria-label="Comprar en VICLU"><div><Truck size={25} /><p>ENVÍOS<span>A TODA COLOMBIA</span></p></div><div><ShieldCheck size={25} /><p>ATENCIÓN DIRECTA<span>POR WHATSAPP</span></p></div><div><ScanFace size={25} /><p>ESTILO URBANO<span>SIN LÍMITES</span></p></div></section>
-      <footer className="halloween-footer"><WebCorner className="footer-web" /><HangingSpider className="footer-spider" />
-        <div className="footer-campaign site-container"><div><p className="eyebrow">LA NOCHE ES TUYA / HALLOWEEN 2026</p><h2>ESTILO DE<br /><span>OTRO MUNDO.</span></h2><a href={`https://wa.me/${WHATSAPP_PHONE}`} className="button button-orange" target="_blank" rel="noopener noreferrer">Encuentra tu gorra <ArrowUpRight size={17} /></a></div><div className="footer-mascot" aria-hidden="true"><div className="mascot-orbit" /><HalloweenMark /><span>VICLU · ESPÍRITU CALLEJERO</span></div></div>
+      <footer id="contacto" className="halloween-footer"><WebCorner className="footer-web" /><HangingSpider className="footer-spider" />
+        <div className="footer-campaign site-container"><div className="footer-copy"><p className="eyebrow">LA NOCHE ES TUYA / HALLOWEEN 2026</p><h2>ESTILO DE<br /><span>OTRO MUNDO.</span></h2><CampaignButton href={`https://wa.me/${WHATSAPP_PHONE}`} label="Encuentra tu gorra" external /></div><SpiritLantern /></div>
         <div className="store-footer site-container">
         <div><Link to="/" className="wordmark">VICLU.STORE</Link><p>Gorras para llevar tu historia.<br />Desde Colombia, para la calle.</p></div>
         <nav aria-label="Información"><a href="/#preguntas">Envíos y compras</a><a href={`https://wa.me/${WHATSAPP_PHONE}`} target="_blank" rel="noopener noreferrer">WhatsApp</a><a href={APP_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={14} /> Instagram</a></nav>
