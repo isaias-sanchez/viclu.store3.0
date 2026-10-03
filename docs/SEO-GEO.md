@@ -51,6 +51,7 @@ Fuentes: [Google: funciones de IA y tu sitio](https://developers.google.com/sear
 Skill usada: `/Users/isaias/.codex/skills/.system/imagegen/SKILL.md`, herramienta integrada image_gen (sin API CLI). Son imágenes de campaña, no sustitutos de fotos del inventario.
 
 - `public/images/halloween-hero.webp`: foto editorial de gorra negra en asfalto mojado, callejón oscuro, grafiti naranja de jack-o-lantern, espacio oscuro a la izquierda para el titular, sin textos o marcas de terceros.
+- `public/images/halloween-cap-eclipse.webp`: nueva pieza protagonista del hero, gorra negra con cinta satinada naranja y fondo transparente, 1000 × 1000, 198 KB. El titular y el eclipse se construyen en HTML/SVG para conservar texto indexable y animación por capas.
 - `public/images/city-poster.webp`: hombre adulto de espaldas, gorra y hoodie negros, callejón colombiano al atardecer, luces ámbar y espacio a la izquierda para el texto, sin textos/logos.
 
 Prompts completos de generación guardados en `docs/image-prompts.md`.

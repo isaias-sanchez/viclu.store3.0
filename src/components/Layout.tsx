@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { Instagram, Menu, X, Search, UserRound, MessageCircle, Truck, ShieldCheck, ScanFace, Pause, Play } from 'lucide-react';
+import { Instagram, Menu, X, Search, UserRound, MessageCircle, Truck, ShieldCheck, ScanFace } from 'lucide-react';
 import { HalloweenMark, WebCorner, HangingSpider } from './HalloweenArt';
 import SpiritLantern from './SpiritLantern';
 import CampaignButton from './CampaignButton';
@@ -9,12 +9,11 @@ import { catalogSnapshot, categoryPath, getCategories } from '../lib/catalog';
 
 export function Layout({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [effectsPaused, setEffectsPaused] = useState(false);
   const { pathname } = useLocation();
   const categories = getCategories(catalogSnapshot);
   const closeMenu = () => setMenuOpen(false);
   return (
-    <div className={`store-layout ${effectsPaused ? 'effects-paused' : ''}`}>
+    <div className="store-layout">
       <a className="skip-link" href="#contenido">Saltar al contenido</a>
       <div className="announcement"><span>✦ ESPECIAL HALLOWEEN</span><span className="announcement-divider">/</span><span>ENVÍOS A TODA COLOMBIA</span><span className="announcement-desktop">/ OCTUBRE 2026 ✦</span></div>
       <header className="store-header">
@@ -26,7 +25,6 @@ export function Layout({ children }: { children: ReactNode }) {
             {categories.map(cat => <Link key={cat} to={categoryPath(cat)} aria-current={pathname === categoryPath(cat) ? 'page' : undefined}>{cat}</Link>)}
           </nav>
           <div className="header-actions">
-            <button className="icon-link motion-toggle" aria-label={effectsPaused ? 'Reanudar animaciones' : 'Pausar animaciones'} aria-pressed={effectsPaused} onClick={() => setEffectsPaused(!effectsPaused)}>{effectsPaused ? <Play size={16} /> : <Pause size={16} />}</button>
             <Link className="icon-link" to="/#buscar" aria-label="Buscar gorras"><Search size={19} /></Link>
             <Link className="icon-link account-link" to="/admin" aria-label="Acceso de administración"><UserRound size={18} /></Link>
             <a className="icon-link" href={`https://wa.me/${WHATSAPP_PHONE}`} target="_blank" rel="noopener noreferrer" aria-label="Contactar a VICLU por WhatsApp"><MessageCircle size={19} /></a>

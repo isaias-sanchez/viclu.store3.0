@@ -1,5 +1,3 @@
-import type { CSSProperties } from 'react';
-
 /** Original VICLU vector illustrations. Decorative, resolution independent assets. */
 export function HalloweenMark({ kind = 'skull', className = '' }: { kind?: 'skull' | 'pumpkin' | 'bat'; className?: string }) {
   return <svg className={`halloween-mark ${className}`} viewBox="0 0 120 120" fill="none" aria-hidden="true">
@@ -27,13 +25,4 @@ export function HangingSpider({ className = '' }: { className?: string }) {
 
 export function HalloweenTexture() {
   return <div className="halloween-texture" aria-hidden="true"><div className="web-pattern" /><WebCorner className="texture-web" /><HangingSpider className="texture-spider" /><HalloweenMark className="texture-skull" /><HalloweenMark kind="bat" className="texture-bat" /></div>;
-}
-
-export function AnimatedNight() {
-  return <div className="animated-night" aria-hidden="true">
-    <div className="night-glow" /><div className="night-fog fog-back" /><div className="night-fog fog-front" />
-    {[0, 1, 2].map(i => <div className={`flying-bat bat-${i}`} key={i}><HalloweenMark kind="bat" /></div>)}
-    {Array.from({ length: 12 }, (_, i) => <i className="night-ember" key={i} style={{ '--ember-x': `${46 + (i * 17 % 53)}%`, '--ember-delay': `${-i * 1.3}s`, '--ember-duration': `${7 + i % 5}s` } as CSSProperties} />)}
-    <WebCorner className="hero-web" /><HangingSpider className="hero-spider" />
-  </div>;
 }

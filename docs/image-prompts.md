@@ -1,5 +1,13 @@
 # Prompts de campaña · herramienta integrada image_gen
 
+## Hero Eclipse · public/images/halloween-cap-eclipse.webp
+
+Modo: herramienta integrada image_gen, generación nueva, fondo transparente. WebP optimizado con Sharp a 1000 × 1000, preservando alpha. Prompt:
+
+Use case: ads-marketing.
+Asset type: transparent isolated centerpiece for the Halloween fashion campaign of VICLU.STORE, a Colombian urban cap store.
+Primary request: One spectacular floating black cotton baseball cap, front three-quarter view, visor projecting toward the lower right, sculptural premium fashion editorial CGI with ultra realistic textile weave, stitching, subtle worn details, black-on-black panels, a small burnt orange angular V monogram embroidery on front. A single slender burnt-orange satin ribbon coils freely around the cap like a supernatural wind, passing behind crown and looping below brim, its sharp fabric folds catch rich copper light. The cap is the dominant subject, ribbon is restrained and secondary. Strong orange rim lighting outlines the silhouette with soft neutral key lighting that reveals the BLACK fabric. Stylish dark Halloween atmosphere, elevated streetwear campaign, not cute. No pumpkin, no skull, no model, no humans, no hands, no other logos, no text, no watermark, no background or floor or cast shadow, no particles. True transparent alpha background. Entire cap and ribbon visible with comfortable margins, centered composition filling 85 percent of square canvas. This is an artistic campaign object, not an inventory photograph.
+
 ## Hero · public/images/halloween-hero.webp
 
 Use case: ads-marketing. Asset type: photographic website Halloween campaign hero background for VICLU.STORE, landscape panoramic 3:2 or wider. Primary request: premium urban streetwear baseball cap editorial, inspired by a black/orange Halloween storefront. A single black cotton baseball cap with tonal embroidery and a small burnt-orange abstract V monogram rests on gritty wet asphalt on the RIGHT half, brim extending toward lower right. Behind it a weathered concrete alley wall with a large orange spray-painted grinning jack-o-lantern symbol, dripping paint, dark moody atmospheric alley, subtle warm amber light grazing fabric. LEFT half has very dark charcoal rough wall and negative space for typography added in code. Materials: realistic textile stitching and worn pavement. Cinematic fashion photography, realistic not illustration, understated Halloween, deep black, desaturated brown, burnt orange. No text, no slogans, no webpage, no human, no pumpkins on ground, no watermark, no LA or other brand logos. This is campaign imagery, not an inventory product photograph.
