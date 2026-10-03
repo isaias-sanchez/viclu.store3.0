@@ -3,6 +3,7 @@ import { Routes, Route, useParams, useLocation, Link } from 'react-router-dom';
 import { Search, ArrowLeft, MessageCircle, Truck, ArrowUpRight } from 'lucide-react';
 import { Layout } from './components/Layout';
 import Hero from './components/Hero';
+import { HalloweenTexture } from './components/HalloweenArt';
 import CityStory from './components/CityStory';
 import StoreFaq from './components/StoreFaq';
 import { FilterBar } from './components/FilterBar';
@@ -28,6 +29,7 @@ function Catalog() {
     <PageSeo category={category} />
     {!categorySlug && <Hero />}
     <section className={`catalog-section site-container ${categorySlug ? 'collection-page' : ''}`} id="catalogo">
+      <HalloweenTexture />
       <div className="catalog-heading"><div>{categorySlug && <Link to="/#catalogo" className="breadcrumb"><ArrowLeft size={14} /> Todas las gorras</Link>}<p className="eyebrow">ELIGE TU PRÓXIMA HISTORIA</p>{categorySlug ? <h1>GORRAS {category || categorySlug}</h1> : <h2>COLECCIÓN DISPONIBLE<span className="heading-spark" aria-hidden="true">✦</span></h2>}</div><span className="catalog-count">{visible.length} {visible.length === 1 ? 'MODELO' : 'MODELOS'} / TU ESTILO</span></div>
       {category && <p className="collection-description">Explora las gorras de la colección {category} de VICLU.STORE. Consulta cada modelo por WhatsApp y coordina tu envío dentro de Colombia.</p>}
       <div className="catalog-toolbar"><FilterBar categories={categories} selectedCategory={category} /><label className="catalog-search" id="buscar"><Search size={15} /><span className="sr-only">Buscar en la colección</span><input type="search" placeholder="Busca tu estilo" value={search} onChange={e => setSearch(e.target.value)} /></label></div>

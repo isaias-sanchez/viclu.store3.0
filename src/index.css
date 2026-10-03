@@ -259,3 +259,124 @@ button { cursor: pointer; }
 }
 
 .filter-bar::-webkit-scrollbar { display: none; }
+
+/* VICLU Halloween: custom vector art and continuous, compositor-friendly motion. */
+.halloween-mark { color: var(--orange); width: 48px; height: 48px; flex-shrink: 0; }
+.web-corner, .hanging-spider { color: var(--orange); pointer-events: none; }
+.web-corner { width: 180px; position: absolute; }
+.hanging-spider { width: 50px; position: absolute; transform-origin: top center; animation: spider-sway 5s ease-in-out infinite alternate; }
+.store-layout { overflow: clip; background: #0d0b09; }
+.motion-toggle { color: var(--orange); }
+.animated-night { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.campaign-image { animation: night-camera 14s ease-in-out infinite alternate; transform-origin: 70% 65%; }
+.campaign-copy h1 { font-size: clamp(90px, 10vw, 145px); }
+.night-glow { position: absolute; inset: 0; background: radial-gradient(ellipse at 88% 35%, #ff74182e, transparent 55%); animation: lantern-breathe 4s ease-in-out infinite alternate; }
+.night-fog { position: absolute; bottom: -18%; left: -25%; width: 150%; height: 65%; background: radial-gradient(ellipse at 25% 75%, #eed6b125, transparent 45%), radial-gradient(ellipse at 65% 60%, #c1a58524, transparent 40%); animation: fog-drift 16s ease-in-out infinite alternate; }
+.fog-front { height: 45%; bottom: -12%; animation-duration: 11s; animation-direction: alternate-reverse; opacity: .7; }
+.flying-bat { position: absolute; top: 11%; left: 60%; width: 62px; color: #140d07; animation: bat-flight 13s linear infinite; }
+.flying-bat .halloween-mark { width: 100%; height: auto; color: inherit; animation: bat-wing .6s ease-in-out infinite alternate; }
+.bat-1 { top: 28%; width: 36px; animation-duration: 17s; animation-delay: -8s; }
+.bat-2 { top: 7%; width: 26px; animation-duration: 10s; animation-delay: -5s; }
+.night-ember { position: absolute; left: var(--ember-x); bottom: -12px; width: 3px; height: 5px; border-radius: 50%; background: #ffac57; box-shadow: 0 0 9px #ff7418; animation: ember-rise var(--ember-duration) linear var(--ember-delay) infinite; }
+.hero-web { width: 205px; top: 0; right: 0; transform: rotate(90deg); opacity: .65; }
+.hero-spider { width: 44px; right: 7%; top: -8px; opacity: .85; }
+.hero-inner, .hero-caption { z-index: 2; }
+.hero-caption { color: #c4b8a7; }
+.catalog-section { position: relative; isolation: isolate; }
+.halloween-texture { position: absolute; inset: 0 -48px; z-index: -1; overflow: hidden; pointer-events: none; }
+.web-pattern { position: absolute; inset: -38px; background: url('/images/halloween-web-pattern.svg') repeat; background-size: 420px; opacity: .32; animation: web-drift 12s ease-in-out infinite alternate; }
+.texture-web { top: 0; left: 0; width: 210px; opacity: .44; animation: web-breathe 6s ease-in-out infinite alternate; }
+.texture-spider { right: 1%; top: 3px; width: 55px; opacity: .65; }
+.texture-skull { position: absolute; width: 100px; height: 100px; left: 2px; top: 570px; opacity: .16; transform: rotate(-12deg); animation: spirit-float 8s ease-in-out infinite alternate; }
+.texture-bat { position: absolute; width: 90px; height: 90px; right: 5px; top: 1030px; opacity: .22; animation: spirit-float 6s ease-in-out infinite alternate; }
+.catalog-heading, .catalog-toolbar, .catalog-bottom { position: relative; }
+.catalog-toolbar { border-bottom-color: #a14e2866; background: #120e0bbf; }
+.product-card { border: 1px solid #8a482a; background: #17100b; box-shadow: 0 7px 20px #0004; position: relative; transition: border-color .25s, transform .25s, box-shadow .25s; }
+.product-card:hover, .product-card:focus-within { border-color: #ec702a; box-shadow: 0 6px 22px #ec702a20; transform: translateY(-3px); }
+.product-image-link { margin: 5px 5px 0; }
+.product-brand { display: inline-flex; align-items: center; gap: 5px; background: #1b110eef; border: 1px solid #ec702a; color: #ffe4c2; clip-path: polygon(0 0, 95% 0, 100% 20%, 100% 100%, 5% 100%, 0 80%); }
+.product-brand .halloween-mark { width: 16px; height: 16px; }
+.card-web { width: 68px; top: 0; right: 0; transform: rotate(90deg); opacity: .9; }
+.product-info { padding: 12px 13px 14px; background: radial-gradient(ellipse at right bottom, #a643151f, transparent 70%); }
+.card-season { display: flex; align-items: center; justify-content: space-between; gap: 6px; color: #ed9a65; font-size: 8px; letter-spacing: .08em; margin-bottom: 9px; }
+.card-season .halloween-mark { width: 23px; height: 19px; }
+.product-info h3 { color: #fff0dc; }
+.product-info p { color: #c7ad98; }
+.product-info strong { color: #ff9c5a; font-weight: 600; }
+.product-consult { width: auto; margin: 0 12px 12px; border-color: #c66836; color: #f5b185; background: #ec702a0e; }
+.product-consult:hover { background: var(--orange); color: #160e09; }
+.product-view { background: #ec702a; color: #140d08; opacity: 1; }
+.city-story { border-block: 1px solid #a04c2b66; }
+.city-manifesto > svg { display: block; margin-bottom: 15px; animation: bat-wing 1.6s ease-in-out infinite alternate; }
+.faq-section { position: relative; isolation: isolate; margin-block: 35px; padding: 35px; border: 1px solid #874629; background: radial-gradient(ellipse at left bottom, #6c2c1526, transparent 65%), #140f0c; }
+.faq-web { right: 0; top: 0; width: 125px; transform: rotate(90deg); opacity: .42; z-index: -1; }
+.faq-section h2 span { color: var(--orange); }
+.faq-list details { border-color: #744124; }
+.faq-seal { display: flex; align-items: center; gap: 15px; margin-top: 24px; color: #ed9a65; }
+.faq-seal span { font-family: var(--font-display); font-size: 22px; letter-spacing: .03em; line-height: 1.1; }
+.faq-seal svg { width: 56px; height: 56px; animation: spirit-float 6s ease-in-out infinite alternate; }
+.trust-strip { border-color: #874629; }
+.trust-strip svg { color: var(--orange); }
+.halloween-footer { position: relative; isolation: isolate; overflow: hidden; margin-top: 30px; border-top: 1px solid #b75932; background: radial-gradient(ellipse at 76% 40%, #94341138, transparent 50%), #120d09; }
+.halloween-footer::before { content: ''; position: absolute; inset: -40px; background: url('/images/halloween-web-pattern.svg') repeat; opacity: .22; z-index: -1; animation: web-drift 12s ease-in-out infinite alternate-reverse; }
+.footer-web { width: 235px; top: 0; left: 0; opacity: .6; }
+.footer-spider { width: 45px; top: 0; right: 5%; }
+.footer-campaign { display: flex; justify-content: space-between; align-items: center; gap: 40px; padding-block: 50px; border-bottom: 1px solid #713b27; }
+.footer-campaign .eyebrow { color: #f19b69; font-size: 9px; margin-bottom: 14px; }
+.footer-campaign h2 { font-family: var(--font-display); font-size: clamp(60px, 7vw, 100px); line-height: .9; margin: 0 0 25px; }
+.footer-campaign h2 span { color: var(--orange); }
+.footer-mascot { width: 270px; height: 270px; position: relative; display: grid; place-items: center; margin-right: 8%; }
+.footer-mascot > svg { width: 190px; height: 190px; transform: rotate(-9deg); animation: spirit-float 6s ease-in-out infinite alternate; }
+.mascot-orbit { position: absolute; inset: 0; border: 1px dashed #ec702a80; border-radius: 50%; animation: mascot-orbit 60s linear infinite; }
+.mascot-orbit::after { content: '✦'; position: absolute; color: #ec702a; font-size: 35px; top: -23px; left: 48%; }
+.footer-mascot > span { position: absolute; bottom: -16px; font-size: 8px; letter-spacing: .17em; color: #efac7f; }
+.footer-bottom { border-color: #6d3925; }
+.effects-paused *, .effects-paused *::before, .effects-paused *::after { animation-play-state: paused !important; }
+@keyframes night-camera { from { transform: scale(1.015) translateX(-.4%); } to { transform: scale(1.09) translateX(1%); } }
+@keyframes lantern-breathe { from { opacity: .35; } to { opacity: 1; } }
+@keyframes fog-drift { from { transform: translateX(-6%) translateY(0); } to { transform: translateX(9%) translateY(-10%); } }
+@keyframes bat-flight { 0% { transform: translate(46vw, 40px) rotate(-12deg); opacity: 0; } 10% { opacity: .85; } 50% { transform: translate(0, -20px) rotate(10deg); } 90% { opacity: .85; } 100% { transform: translate(-70vw, 60px) rotate(-15deg); opacity: 0; } }
+@keyframes bat-wing { from { transform: scaleY(.45); } to { transform: scaleY(1); } }
+@keyframes ember-rise { 0% { transform: translate(0, 0); opacity: 0; } 15% { opacity: .8; } 75% { opacity: .6; } 100% { transform: translate(-60px, -430px); opacity: 0; } }
+@keyframes spider-sway { from { transform: rotate(-7deg) translateY(-7px); } to { transform: rotate(7deg) translateY(10px); } }
+@keyframes web-drift { from { transform: translate(-12px, -8px); } to { transform: translate(18px, 16px); } }
+@keyframes web-breathe { from { opacity: .25; transform: scale(.98); } to { opacity: .55; transform: scale(1.025); } }
+@keyframes spirit-float { from { transform: translateY(-7px) rotate(-7deg); } to { transform: translateY(7px) rotate(3deg); } }
+@keyframes mascot-orbit { to { transform: rotate(360deg); } }
+@media (max-width: 800px) {
+  .campaign-copy h1 { font-size: 100px; }
+  .halloween-texture { inset-inline: -20px; }
+  .faq-section { padding: 26px; }
+  .footer-mascot { width: 200px; height: 200px; margin-right: 0; }
+  .footer-mascot > svg { width: 145px; height: 145px; }
+}
+@media (max-width: 580px) {
+  .campaign-copy h1 { font-size: clamp(68px, 20.5vw, 104px); }
+  .campaign-copy .eyebrow { max-width: 245px; }
+  .hero-web { width: 120px; }
+  .hero-spider { width: 32px; right: 9%; }
+  .hero-caption { font-size: 6px; }
+  .halloween-texture { inset-inline: -16px; }
+  .web-pattern { background-size: 290px; opacity: .4; }
+  .texture-web { width: 130px; }
+  .texture-spider { width: 30px; right: 1%; }
+  .product-image-link { margin: 3px 3px 0; }
+  .product-brand { top: 6px; left: 5px; font-size: 6px; padding: 3px 4px; gap: 3px; }
+  .product-brand .halloween-mark { width: 12px; height: 12px; }
+  .product-info { padding: 9px 8px 10px; }
+  .card-season { font-size: 7px; letter-spacing: .04em; margin-bottom: 6px; }
+  .card-season .halloween-mark { width: 18px; height: 15px; }
+  .card-web { width: 45px; }
+  .product-consult { margin: 0 7px 8px; }
+  .faq-section { padding: 24px 18px; margin-block: 24px; }
+  .faq-seal { margin-top: 15px; }
+  .faq-seal svg { width: 42px; height: 42px; }
+  .faq-seal span { font-size: 19px; }
+  .footer-campaign { gap: 24px; flex-direction: column; align-items: flex-start; padding-block: 38px; }
+  .footer-campaign h2 { font-size: 64px; }
+  .footer-campaign .eyebrow { font-size: 7px; }
+  .footer-mascot { width: 170px; height: 170px; align-self: center; margin-block: 12px 15px; }
+  .footer-mascot > svg { width: 125px; height: 125px; }
+  .footer-web { width: 160px; }
+  .footer-spider { right: 8%; width: 33px; }
+}

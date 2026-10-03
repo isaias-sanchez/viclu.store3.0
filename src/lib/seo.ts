@@ -7,7 +7,7 @@ export function pageMetadata({ category, product, notFound }: SeoOptions = {}) {
   const path = product ? productPath(product) : category ? categoryPath(category) : '/';
   return {
     url: `${SITE_URL}${path}`,
-    title: notFound ? 'Página no encontrada | VICLU.STORE' : product ? `${productName(product)} | VICLU.STORE Colombia` : category ? `Gorras ${category} en Colombia | VICLU.STORE` : 'VICLU.STORE | Gorras urbanas en Colombia · Halloween Edit',
+    title: notFound ? 'Página no encontrada | VICLU.STORE' : product ? `${productName(product)} | VICLU.STORE Colombia` : category ? `Gorras ${category} en Colombia | VICLU.STORE` : 'VICLU.STORE | Gorras urbanas en Colombia · Especial Halloween',
     description: product ? `${productName(product)} de la colección ${product.category}. Consulta disponibilidad, ajuste y precio por WhatsApp en VICLU.STORE. Envíos dentro de Colombia.` : category ? `Descubre gorras ${category} en VICLU.STORE. Fotos y precios del catálogo real, atención por WhatsApp y envíos dentro de Colombia.` : 'Gorras beisboleras, camioneras, multimarca y Selección Colombia. Encuentra tu estilo en VICLU.STORE y consulta por WhatsApp. Envíos en Colombia.',
     image: product?.image?.startsWith('https://') ? product.image : `${SITE_URL}/images/halloween-hero.webp`,
     robots: notFound ? 'noindex, follow' : 'index, follow, max-image-preview:large',
