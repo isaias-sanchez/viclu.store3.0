@@ -27,3 +27,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env*
+
+# Public inventory is regenerated for each deployment, never hand edited.
+src/generated/catalog.json
+.vercel
+.ssr
+artifacts
+
+src/generated/images.json
+public/images/products

@@ -1,0 +1,92 @@
+/* VICLU Eclipse: typography, a transparent art object and independent depth planes. */
+.eclipse-hero { position: relative; isolation: isolate; height: clamp(600px, 48vw, 740px); overflow: hidden; background: #110d0a; border-bottom: 1px solid #a94f252e; }
+.eclipse-grain { position: absolute; inset: 0; z-index: -1; opacity: .24; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23b39475' filter='url(%23grain)' opacity='.35' d='M0 0h180v180H0z'/%3E%3C/svg%3E"); }
+.eclipse-topline { position: relative; z-index: 5; padding-top: 28px; display: flex; align-items: center; justify-content: space-between; gap: 16px; font-size: 8px; letter-spacing: .18em; color: #debd9f; }
+.eclipse-topline p { margin: 0; }
+.eclipse-topline > span { color: #9d8672; }
+.eclipse-title { position: relative; z-index: 1; text-align: center; margin: 24px auto 0; width: 94%; line-height: .8; font-weight: 400; }
+.eclipse-question { display: block; font: 500 14px var(--font-body); letter-spacing: .55em; margin: 0 0 16px .55em; color: #eee0d1; }
+.eclipse-word { display: block; font-family: var(--font-display); font-size: clamp(170px, 24vw, 350px); letter-spacing: -.025em; color: #ec702a; animation: eclipse-type-arrive .9s cubic-bezier(.16,1,.3,1) both; }
+.eclipse-scene { position: absolute; z-index: 2; width: min(640px, 57vw); height: min(640px, 57vw); top: 95px; left: 50%; transform: translateX(-50%); pointer-events: none; }
+.eclipse-aura { position: absolute; inset: 3%; border-radius: 50%; background: radial-gradient(circle, #ed702a12 0, #ed702a09 38%, transparent 67%); animation: eclipse-breathe 8s ease-in-out infinite; }
+.eclipse-portal { position: absolute; inset: 2% 9% 16%; transform: translate(calc(var(--scene-x,0px) * -.4),calc(var(--scene-y,0px) * -.4)); transition: transform .4s ease-out; }
+.eclipse-traces { width: 100%; height: 100%; overflow: visible; }
+.eclipse-ring { stroke: #ea7b39; stroke-width: 1.3; stroke-dasharray: 1060 530; transform-origin: 300px 300px; animation: eclipse-orbit 44s linear infinite; }
+.eclipse-dashes { stroke: #ab5f37; stroke-width: 6; stroke-dasharray: 1 23; transform-origin: 300px 300px; animation: eclipse-orbit 80s linear infinite reverse; }
+.eclipse-inner-ring { stroke: #ec702a30; stroke-width: .7; }
+.eclipse-web-strands { stroke: #d2834935; stroke-width: .7; transform-origin: 300px 300px; animation: eclipse-orbit 120s linear infinite; }
+.eclipse-comet { stroke: #ffc598; stroke-width: 3; stroke-linecap: round; transform-origin: 300px 300px; animation: eclipse-orbit 12s linear infinite; }
+.eclipse-product-drift { position: absolute; inset: 10% 9% 14%; animation: eclipse-levitate 7s cubic-bezier(.45,0,.55,1) infinite; }
+.eclipse-product { width: 100%; height: 100%; transform: translate3d(var(--scene-x,0px),var(--scene-y,0px),0) rotate(var(--scene-turn,0deg)); transition: transform .4s ease-out; }
+.eclipse-product img { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; }
+.eclipse-shadow { position: absolute; width: 60%; height: 8%; bottom: 4%; left: 20%; background: radial-gradient(ellipse,#0008,transparent 70%); animation: eclipse-shadow 7s ease-in-out infinite; }
+.eclipse-cinder { position: absolute; left: var(--cinder-x); bottom: 20%; width: 2px; height: 3px; background: #fb995c; border-radius: 50%; animation: eclipse-cinder 6s linear var(--cinder-delay) infinite; }
+.eclipse-haunt { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.eclipse-corner { width: 175px; right: 0; top: 0; opacity: .16; transform: rotate(90deg); }
+.eclipse-spider { right: 8%; top: -40px; width: 35px; opacity: .55; }
+.eclipse-bat { position: absolute; width: 58px; height: 58px; color: #cf7436; opacity: .65; }
+.bat-near { top: 48%; left: 12%; animation: eclipse-bat 8s ease-in-out infinite; }
+.bat-far { width: 29px; height: 29px; top: 31%; right: 13%; opacity: .32; animation: eclipse-bat 10s ease-in-out -3s infinite reverse; }
+.eclipse-side-label { position: absolute; top: 50%; left: 24px; writing-mode: vertical-rl; transform: rotate(180deg); font-size: 7px; letter-spacing: .22em; color: #ac784f; }
+.eclipse-bottom { position: absolute; bottom: 65px; left: 0; right: 0; z-index: 4; display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; pointer-events: none; }
+.eclipse-manifesto { font-family: var(--font-display); font-size: 33px; line-height: 1.06; margin: 0; color: #f2e4d5; }
+.eclipse-manifesto span { color: #ab8c73; }
+.eclipse-action { display: flex; flex-direction: column; gap: 14px; align-items: flex-end; pointer-events: auto; }
+.eclipse-action > span { font-size: 8px; letter-spacing: .17em; color: #c6aa93; }
+.eclipse-action .campaign-button { width: 230px; }
+.eclipse-baseline { position: absolute; bottom: 23px; left: 0; right: 0; z-index: 4; display: flex; justify-content: space-between; gap: 20px; font-size: 7px; letter-spacing: .16em; color: #9f8670; }
+@keyframes eclipse-type-arrive { from { transform: translateY(20px); } to { transform: translateY(0); } }
+@keyframes eclipse-orbit { to { transform: rotate(360deg); } }
+@keyframes eclipse-breathe { 0%,100% { transform: scale(.92); opacity: .65; } 50% { transform: scale(1.12); opacity: 1; } }
+@keyframes eclipse-levitate { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-20px) rotate(2deg); } }
+@keyframes eclipse-shadow { 0%,100% { transform: scaleX(1); opacity: .8; } 50% { transform: scaleX(.8); opacity: .35; } }
+@keyframes eclipse-cinder { 0% { opacity: 0; transform: translate(0,0); } 20% { opacity: .75; } 100% { opacity: 0; transform: translate(var(--cinder-travel),-250px); } }
+@keyframes eclipse-bat { 0%,100% { transform: translateY(0) rotate(-9deg) scaleY(.9); } 50% { transform: translateY(-30px) rotate(12deg) scaleY(.6); } }
+@media (min-width: 1800px) { .eclipse-scene { width: 740px; height: 740px; top: 85px; } }
+@media (max-width: 1100px) {
+  .eclipse-scene { width: 600px; height: 600px; top: 105px; }
+  .eclipse-word { font-size: 25vw; }
+  .eclipse-manifesto { font-size: 27px; }
+  .eclipse-side-label { left: 12px; }
+  .bat-near { left: 6%; }
+}
+@media (max-width: 800px) {
+  .eclipse-hero { height: 650px; }
+  .eclipse-title { margin-top: 36px; }
+  .eclipse-scene { top: 130px; width: 560px; height: 560px; }
+  .eclipse-topline { font-size: 7px; letter-spacing: .1em; }
+  .eclipse-manifesto { font-size: 22px; }
+  .eclipse-bottom { bottom: 66px; }
+  .eclipse-action .campaign-button { width: 196px; }
+  .eclipse-side-label { display: none; }
+}
+@media (max-width: 580px) {
+  .eclipse-hero { height: 655px; }
+  .eclipse-topline { padding-top: 23px; justify-content: center; font-size: 7px; letter-spacing: .15em; }
+  .eclipse-topline > span { display: none; }
+  .eclipse-title { width: 100%; margin-top: 28px; }
+  .eclipse-question { font-size: 11px; margin-bottom: 14px; letter-spacing: .4em; }
+  .eclipse-word { font-size: 27vw; }
+  .eclipse-scene { width: 440px; height: 440px; top: 134px; }
+  .eclipse-portal { inset: 5% 15% 15%; }
+  .eclipse-product-drift { inset: 2% 10% 12%; }
+  .eclipse-corner { width: 110px; }
+  .eclipse-spider { width: 27px; right: 3%; top: -20px; }
+  .bat-near { width: 34px; height: 34px; top: 45%; left: 4%; }
+  .bat-far { width: 22px; height: 22px; top: 34%; right: 5%; }
+  .eclipse-bottom { bottom: 61px; flex-direction: column; align-items: center; gap: 18px; text-align: center; }
+  .eclipse-manifesto { font: 500 9px/1.6 var(--font-body); letter-spacing: .13em; }
+  .eclipse-action { align-items: center; }
+  .eclipse-action > span { display: none; }
+  .eclipse-action .campaign-button { width: 218px; }
+  .eclipse-baseline { bottom: 20px; justify-content: center; font-size: 6px; }
+  .eclipse-baseline span:first-child { display: none; }
+}
+@media (max-width: 360px) {
+  .eclipse-hero { height: 615px; }
+  .eclipse-scene { width: 390px; height: 390px; top: 133px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .eclipse-product, .eclipse-portal { transform: none; }
+  .eclipse-word { transform: none; }
+}

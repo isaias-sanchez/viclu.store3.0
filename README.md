@@ -177,3 +177,10 @@ npm run build
 ## 📱 Contacto de compra
 
 Las compras se gestionan por **WhatsApp**. Cada `ProductCard` genera un link `wa.me/<phone>?text=...` con el nombre del producto y precio pre-cargados.
+
+
+## Halloween · SEO / GEO (octubre 2026)
+
+La compilación consulta el inventario público, optimiza sus fotografías y genera HTML por categoría/producto, metadatos y sitemap. Configura las variables de `.env.example` antes de ejecutar `npm run dev` o `npm run build`. No se usa el seed demo como inventario. Ejecuta `npm run lint` y `npm run check:seo` después del build.
+
+Consulta [docs/SEO-GEO.md](docs/SEO-GEO.md) para publicación, indexación en Search Console y la actualización del HTML al cambiar inventario.
