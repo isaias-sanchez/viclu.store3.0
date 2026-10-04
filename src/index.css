@@ -453,3 +453,51 @@ button { cursor: pointer; }
   .campaign-button:hover .button-face, .campaign-button:focus-visible .button-face { transform: none; }
   .button-face-back { display: none; }
 }
+
+/* Evergreen buying information, kept in the campaign's visual language. */
+.collection-description a { color: #f49b61; text-decoration: underline; text-underline-offset: 4px; }
+.store-footer nav { flex-wrap: wrap; max-width: 62%; row-gap: 16px; }
+.information-hero { position: relative; isolation: isolate; overflow: hidden; padding-block: 38px 64px; border-bottom: 1px solid #713b27; }
+.information-hero .breadcrumb { margin-bottom: 48px; }
+.information-hero-grid { position: relative; display: grid; grid-template-columns: 1.5fr 1fr; align-items: center; gap: 64px; }
+.information-hero .eyebrow, .information-content .eyebrow { color: #f49b61; }
+.information-hero h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(58px, 7vw, 100px); line-height: .95; margin: 0 0 26px; }
+.information-hero h1 em { font-style: normal; color: var(--orange); }
+.information-intro { max-width: 550px; color: #cdc4b8; font-size: 16px; line-height: 1.8; margin-bottom: 28px; }
+.information-note { padding: 36px; border: 1px solid #8d4829; background: radial-gradient(at top right, #ec702a20, transparent), #17100b; }
+.information-note > svg { display: block; margin: 30px 0 18px; color: var(--orange); }
+.information-note p { font-size: 23px; line-height: 1.5; margin-bottom: 26px; }
+.information-note > span:last-child { display: block; font-size: 11px; color: #b9ada0; line-height: 1.8; }
+.information-content { padding-block: 16px 50px; }
+.information-section { padding-block: 40px; border-bottom: 1px solid #35271e; }
+.information-section h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 3vw, 44px); line-height: 1.1; margin: 0 0 22px; }
+.information-section > p { max-width: 880px; color: #bdb5aa; font-size: 15px; line-height: 1.9; margin: 0 0 18px; }
+.information-section .product-grid { margin-block: 25px; }
+.collection-guides { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.collection-guides article { background: linear-gradient(145deg, #21150e, #110e0b); border: 1px solid #6e3c26; padding: 28px; }
+.collection-guides .eyebrow { font-size: 9px; margin-bottom: 16px; }
+.collection-guides h3 { font-family: var(--font-display); font-size: 32px; font-weight: 400; margin: 0 0 14px; }
+.collection-guides p { color: #bdb5aa; font-size: 14px; line-height: 1.8; margin-bottom: 22px; }
+.information-link { display: inline-flex; align-items: center; gap: 10px; padding-block: 10px; color: #f49b61; font-size: 13px; line-height: 1.7; }
+.information-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.purchase-steps { max-width: 860px; color: #bdb5aa; font-size: 15px; line-height: 1.9; padding-left: 22px; }
+.purchase-steps li { padding-left: 10px; margin-bottom: 14px; }
+.purchase-steps li::marker { color: #f49b61; }
+.purchase-steps strong { color: #f2efe9; }
+.information-actions { display: flex; flex-direction: column; align-items: flex-start; margin-block: 22px; }
+.information-next { display: flex; align-items: center; gap: 16px; padding-block: 28px; color: #f49b61; font-size: 13px; line-height: 1.6; }
+.information-next > svg { flex-shrink: 0; }
+@media (max-width: 800px) {
+  .information-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .information-hero { padding-block: 28px 40px; }
+  .information-hero .breadcrumb { margin-bottom: 32px; }
+  .information-note { padding: 26px; }
+  .information-note p { font-size: 19px; }
+  .store-footer nav { max-width: 100%; }
+}
+@media (max-width: 580px) {
+  .collection-guides { grid-template-columns: 1fr; }
+  .information-section { padding-block: 30px; }
+  .information-intro { font-size: 15px; }
+  .information-section > p, .purchase-steps { font-size: 14px; }
+}

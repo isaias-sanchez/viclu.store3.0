@@ -1,7 +1,7 @@
 {
-  "name": "Viclu Store — Gorras Premium",
-  "short_name": "Viclu Store",
-  "description": "Gorras premium de estilo urbano: camioneras, beisboleras, trucker y snapback. Envíos en Colombia.",
+  "name": "VICLU.STORE — Tienda online de gorras",
+  "short_name": "VICLU.STORE",
+  "description": "Gorras beisboleras, camioneras, multimarca y Selección Colombia. Pedidos por WhatsApp y envíos en Colombia.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0F0F0F",

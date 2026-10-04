@@ -16,6 +16,14 @@ for (const page of pages) {
   assert.ok(html.includes('VICLU.STORE'), `Brand: ${page.path}`);
   const schema = JSON.parse(html.match(/<script id="page-jsonld" type="application\/ld\+json">(.*?)<\/script>/s)?.[1] || 'null');
   assert.equal(schema['@context'], 'https://schema.org');
+  assert.equal((html.match(/rel="canonical"/g) || []).length, 1, `Single canonical: ${page.path}`);
+  assert.ok(html.includes(`href="${SITE_URL + page.path}"`), `Self canonical: ${page.path}`);
+  const store = schema['@graph'].find(item => item['@type'] === 'OnlineStore');
+  assert.equal(store.name, 'VICLU.STORE');
+  assert.ok(store.description.includes('online') && store.description.includes('no tenemos local'));
+  assert.ok(store.areaServed.some(area => area['@type'] === 'City' && area.name === 'Barranquilla'));
+  assert.ok(!store.address && !store.geo && !store.openingHours, 'Online store has no invented physical location');
+  assert.ok(!schema['@graph'].some(item => item['@type'] === 'LocalBusiness'));
   assert.ok(!html.includes('paymentAccepted'), 'Do not invent payment methods');
   for (const match of html.matchAll(/<a[^>]*href="(\/[^"#?]*)/g)) {
     assert.ok(paths.has(match[1]) || match[1] === '/admin', `Internal link exists: ${match[1]} from ${page.path}`);
@@ -29,6 +37,27 @@ for (const page of pages) {
     assert.ok(html.includes(`href="${SITE_URL + page.path}"`), 'Self canonical');
   }
   if (page.options.notFound) assert.ok(html.includes('noindex'));
+  if (!page.options.notFound) {
+    const faq = schema['@graph'].find(item => item['@type'] === 'FAQPage');
+    for (const question of faq.mainEntity) {
+      assert.ok(html.includes(question.name), `FAQ question visible in HTML: ${page.path}`);
+      assert.ok(html.includes(question.acceptedAnswer.text), `FAQ answer visible in HTML: ${page.path}`);
+    }
+    const list = schema['@graph'].find(item => item['@type'] === 'ItemList');
+    if (list) for (const item of list.itemListElement) {
+      assert.ok(paths.has(new URL(item.url).pathname), `ItemList target exists: ${item.url}`);
+      assert.ok(html.includes(`href="${new URL(item.url).pathname}"`), `ItemList product is linked in HTML: ${page.path}`);
+    }
+  }
+  if (page.options.editorial) {
+    assert.ok(!title.includes('Halloween'), 'Editorial title stays evergreen');
+    assert.ok(html.includes('Tienda exclusivamente online'), 'Online modality visible');
+    assert.ok(html.includes('/envios-y-compras') && html.includes('/gorras-en-barranquilla') && html.includes('/guia-de-gorras'), 'Editorial pages linked together');
+    if (page.options.editorial === 'barranquilla') {
+      assert.ok(html.match(/<h1[\s\S]*?Barranquilla[\s\S]*?<\/h1>/i), 'Local topic in visible h1');
+      assert.ok(html.includes('No tenemos local abierto al público'), 'Local landing clarifies online-only service');
+    }
+  }
 }
 const sitemap = await readFile('dist/sitemap.xml', 'utf8');
 assert.equal((sitemap.match(/<loc>/g) || []).length, pages.length - 1);

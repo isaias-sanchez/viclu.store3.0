@@ -13,6 +13,8 @@ import { useProducts } from './hooks/useProducts';
 import { categoryPath, getCategories, productName, slugify, productImage, productSrcSet } from './lib/catalog';
 import { formatPrice, generateWhatsAppLink } from './lib/utils';
 import { WHATSAPP_PHONE } from './lib/constants';
+import { CATEGORY_DESCRIPTIONS, EDITORIAL_PAGES } from './lib/editorial';
+import StoreInformation from './pages/StoreInformation';
 
 const AdminPage = lazy(() => import('./pages/Admin'));
 
@@ -31,7 +33,7 @@ function Catalog() {
     <section className={`catalog-section site-container ${categorySlug ? 'collection-page' : ''}`} id="catalogo">
       <HalloweenTexture />
       <div className="catalog-heading"><div>{categorySlug && <Link to="/#catalogo" className="breadcrumb"><ArrowLeft size={14} /> Todas las gorras</Link>}<p className="eyebrow">ELIGE TU PRÓXIMA HISTORIA</p>{categorySlug ? <h1>GORRAS {category || categorySlug}</h1> : <h2>COLECCIÓN DISPONIBLE<span className="heading-spark" aria-hidden="true">✦</span></h2>}</div><span className="catalog-count">{visible.length} {visible.length === 1 ? 'MODELO' : 'MODELOS'} / TU ESTILO</span></div>
-      {category && <p className="collection-description">Explora las gorras de la colección {category} de VICLU.STORE. Consulta cada modelo por WhatsApp y coordina tu envío dentro de Colombia.</p>}
+      <p className="collection-description">{category ? CATEGORY_DESCRIPTIONS[category] : 'Tu tienda online de gorras en Colombia: beisboleras, camioneras, multimarca y Selección Colombia. Compara fotos y precios del catálogo y confirma tu pedido por WhatsApp.'} <Link to="/gorras-en-barranquilla">¿Buscas gorras en Barranquilla? Consulta los envíos.</Link></p>
       <div className="catalog-toolbar"><FilterBar categories={categories} selectedCategory={category} /><label className="catalog-search" id="buscar"><Search size={15} /><span className="sr-only">Buscar en la colección</span><input type="search" placeholder="Busca tu estilo" value={search} onChange={e => setSearch(e.target.value)} /></label></div>
       {error && <div className="inventory-notice" role="status">No pudimos actualizar la disponibilidad. Confirma el stock por WhatsApp. <button onClick={() => void refreshProducts()}>Reintentar</button></div>}
       {visible.length > 0 ? <div className="product-grid">{visible.map(product => <ProductCard key={product.id} product={product} />)}</div> : <div className="empty-collection" role="status"><h3>{loading ? 'Cargando colección…' : 'No encontramos ese estilo'}</h3><p>{search ? 'Prueba con otra marca, color o modelo.' : 'Consulta por WhatsApp los próximos modelos disponibles.'}</p>{search && <button className="button button-outline" onClick={() => setSearch('')}>Ver todos los modelos</button>}</div>}
@@ -73,5 +75,5 @@ function ScrollToLocation() {
 }
 
 export default function App() {
-  return <><ScrollToLocation /><Routes><Route path="/" element={<Catalog />} /><Route path="/coleccion/:categorySlug" element={<Catalog />} /><Route path="/gorras/:productSlug" element={<ProductPage />} /><Route path="/admin" element={<Suspense fallback={<p className="loading-product">Cargando administración…</p>}><AdminPage /></Suspense>} /><Route path="*" element={<NotFound />} /></Routes></>;
+  return <><ScrollToLocation /><Routes><Route path="/" element={<Catalog />} /><Route path="/coleccion/:categorySlug" element={<Catalog />} /><Route path="/gorras/:productSlug" element={<ProductPage />} />{(Object.keys(EDITORIAL_PAGES) as (keyof typeof EDITORIAL_PAGES)[]).map(page => <Route key={page} path={EDITORIAL_PAGES[page].path} element={<StoreInformation page={page} />} />)}<Route path="/admin" element={<Suspense fallback={<p className="loading-product">Cargando administración…</p>}><AdminPage /></Suspense>} /><Route path="*" element={<NotFound />} /></Routes></>;
 }

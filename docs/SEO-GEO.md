@@ -55,3 +55,11 @@ Skill usada: `/Users/isaias/.codex/skills/.system/imagegen/SKILL.md`, herramient
 - `public/images/city-poster.webp`: hombre adulto de espaldas, gorra y hoodie negros, callejón colombiano al atardecer, luces ámbar y espacio a la izquierda para el texto, sin textos/logos.
 
 Prompts completos de generación guardados en `docs/image-prompts.md`.
+
+## Refuerzo orgánico y local — 2026-10-04
+
+Marca confirmada: **VICLU.STORE**. Modalidad confirmada: exclusivamente online. Se añaden `/gorras-en-barranquilla`, `/guia-de-gorras` y `/envios-y-compras`, con contenido útil, FAQ específica, enlaces al catálogo y HTML prerenderizado. El inicio y las colecciones enlazan la página local; el footer enlaza las tres páginas y muestra el contacto público existente. El título principal del sitio pasa a describir la tienda y su alcance durante todo el año, conservando la campaña visual aprobada.
+
+La entidad OnlineStore especifica Colombia y Barranquilla como áreas atendidas, sin atribuir una sede presencial. Se añaden ItemList para los productos enlazados, datos de marca/color disponibles en títulos de fichas y comprobaciones de FAQ visible, canonical por URL y ausencia de datos físicos inventados. El sitemap contiene 66 URLs indexables en el inventario actual.
+
+Auditoría, mapa de consultas, métricas disponibles y pendientes: [LOCAL-SEO-ANALYSIS-viclu.store.md](LOCAL-SEO-ANALYSIS-viclu.store.md). El envío del sitemap y la inspección de Google requieren iniciar sesión en Search Console; abrir el portal no equivale a haber ejecutado esas acciones.
