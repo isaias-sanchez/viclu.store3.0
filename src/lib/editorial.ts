@@ -18,7 +18,7 @@ export const EDITORIAL_PAGES = {
     intro: 'Gorras en Barranquilla, desde donde estés. Elige en nuestro catálogo online y coordina tu pedido por WhatsApp.',
     questions: [
       { question: '¿Dónde comprar gorras online con envío a Barranquilla?', answer: 'En VICLU.STORE puedes consultar gorras beisboleras, camioneras, multimarca y Selección Colombia. Elige una ficha del catálogo y escribe por WhatsApp para confirmar disponibilidad, precio y envío a Barranquilla antes de pagar.' },
-      { question: '¿VICLU.STORE tiene un local en Barranquilla?', answer: 'VICLU.STORE funciona exclusivamente por internet. No tenemos local abierto al público ni una dirección para recoger pedidos. La atención y la coordinación de entregas se realizan por WhatsApp.' },
+      { question: '¿VICLU.STORE tiene un local en Barranquilla?', answer: 'VICLU.STORE funciona exclusivamente por internet. No tenemos local abierto al público. Consulta por WhatsApp las opciones y los detalles de entrega de tu pedido.' },
       { question: '¿Cuánto cuesta el envío y cuándo llega a Barranquilla?', answer: 'El costo y el plazo se confirman por WhatsApp para tu destino y pedido. Indica tu ciudad y consulta la cobertura para tu dirección antes de comprar.' },
       { question: '¿Cómo confirmo el modelo que quiero comprar?', answer: 'Abre la ficha de la gorra y pulsa Consultar por WhatsApp. El mensaje identifica el producto y su precio. Solicita confirmación del stock, medidas, cierre, forma de pago y total con envío antes de realizar el pedido.' },
     ],
