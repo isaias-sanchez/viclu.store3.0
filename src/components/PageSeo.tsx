@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { pageMetadata, structuredData, type SeoOptions } from '../lib/seo';
 
-export default function PageSeo({ category, product, notFound }: SeoOptions) {
+export default function PageSeo({ category, product, notFound, editorial }: SeoOptions) {
   useEffect(() => {
-    const options = { category, product, notFound };
+    const options = { category, product, notFound, editorial };
     const meta = pageMetadata(options);
     document.title = meta.title;
     for (const [name, content] of Object.entries({ description: meta.description, robots: meta.robots, 'og:type': product ? 'product' : 'website', 'og:title': meta.title, 'og:description': meta.description, 'og:url': meta.url, 'og:image': meta.image, 'og:image:alt': product?.name || 'VICLU.STORE Especial Halloween', 'twitter:title': meta.title, 'twitter:description': meta.description, 'twitter:image': meta.image })) {
@@ -18,6 +18,6 @@ export default function PageSeo({ category, product, notFound }: SeoOptions) {
     let script = document.getElementById('page-jsonld');
     if (!script) { script = document.createElement('script'); script.id = 'page-jsonld'; script.setAttribute('type', 'application/ld+json'); document.head.appendChild(script); }
     script.textContent = JSON.stringify(structuredData(options));
-  }, [category, product, notFound]);
+  }, [category, product, notFound, editorial]);
   return null;
 }

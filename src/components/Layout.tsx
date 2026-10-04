@@ -38,8 +38,8 @@ export function Layout({ children }: { children: ReactNode }) {
       <footer id="contacto" className="halloween-footer"><WebCorner className="footer-web" /><HangingSpider className="footer-spider" />
         <div className="footer-campaign site-container"><div className="footer-copy"><p className="eyebrow">LA NOCHE ES TUYA / HALLOWEEN 2026</p><h2>ESTILO DE<br /><span>OTRO MUNDO.</span></h2><CampaignButton href={`https://wa.me/${WHATSAPP_PHONE}`} label="Encuentra tu gorra" external /></div><SpiritLantern /></div>
         <div className="store-footer site-container">
-        <div><Link to="/" className="wordmark">VICLU.STORE</Link><p>Gorras para llevar tu historia.<br />Desde Colombia, para la calle.</p></div>
-        <nav aria-label="Información"><a href="/#preguntas">Envíos y compras</a><a href={`https://wa.me/${WHATSAPP_PHONE}`} target="_blank" rel="noopener noreferrer">WhatsApp</a><a href={APP_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={14} /> Instagram</a></nav>
+        <div><Link to="/" className="wordmark">VICLU.STORE</Link><p>Tienda online de gorras · Colombia.<br />Pedidos y envíos por WhatsApp: +{WHATSAPP_PHONE}</p></div>
+        <nav aria-label="Información"><Link to="/gorras-en-barranquilla">Gorras en Barranquilla</Link><Link to="/guia-de-gorras">Guía de gorras</Link><Link to="/envios-y-compras">Envíos y compras</Link><a href={`https://wa.me/${WHATSAPP_PHONE}`} target="_blank" rel="noopener noreferrer">WhatsApp</a><a href={APP_CONFIG.instagramUrl} target="_blank" rel="noopener noreferrer"><Instagram size={14} /> Instagram</a></nav>
         <div className="footer-bottom"><span>© {new Date().getFullYear()} VICLU.STORE</span><span>¿TRUCO O ESTILO? / ESPECIAL HALLOWEEN</span><a href="https://actaproyect.online/" target="_blank" rel="noopener noreferrer">Diseñado por ACTA</a></div>
         </div>
       </footer>
