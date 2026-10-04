@@ -38,11 +38,11 @@ El snapshot y las variantes del inventario se generan en build y están excluido
 
 1. Revisar el PR y su preview; integrar por PR a main según la regla de trabajo colaborativo.
 2. Verificar en producción `/`, una categoría, una ficha, `/robots.txt`, `/sitemap.xml` y que una URL inexistente responde 404.
-3. En Google Search Console, verificar la propiedad `viclu.store` y enviar `https://viclu.store/sitemap.xml`.
-4. Inspeccionar inicio, una categoría y una ficha; solicitar indexación. Validar la ficha con Rich Results Test. Estas acciones requieren acceso del propietario a la propiedad y no se han ejecutado en esta entrega.
+3. En Google Search Console, la propiedad de dominio `sc-domain:viclu.store` quedó verificada por TXT DNS el 2026-10-04. Mantener el registro de verificación en DNS. Se envió `https://viclu.store/sitemap.xml`; el estado de lectura debe comprobarse en el informe, separado de la confirmación de envío.
+4. Inspeccionar inicio, una categoría y una ficha; solicitar indexación. Validar la ficha con Rich Results Test. Las acciones ejecutadas y los resultados reales se registran en la auditoría enlazada abajo. Solicitar indexación no equivale a estar indexado.
 5. Comparar clics, impresiones y consultas a 28 días; medir consultas reales en WhatsApp. No se añadió Analytics ni seguimiento de usuarios sin una configuración existente.
 
-Esta entrega prepara páginas rastreables; no certifica que Google ya las haya indexado ni garantiza posiciones o tráfico. Para aparecer en las experiencias de IA de Google, siguen aplicando las prácticas SEO: contenido útil, accesible en texto, enlaces internos y datos estructurados acordes al contenido visible. No se necesita un archivo llms.txt ni un marcado especial de IA. La FAQ ayuda a clientes y a interpretar el negocio; no se promete un resultado enriquecido FAQ para esta tienda.
+El inicio está indexado según Search Console. Las solicitudes de actualización y de nuevas páginas no certifican su inclusión ni garantizan posiciones o tráfico. Para aparecer en las experiencias de IA de Google, siguen aplicando las prácticas SEO: contenido útil, accesible en texto, enlaces internos y datos estructurados acordes al contenido visible. No se necesita un archivo llms.txt ni un marcado especial de IA. La FAQ ayuda a clientes y a interpretar el negocio; no se promete un resultado enriquecido FAQ para esta tienda.
 
 Fuentes: [Google: funciones de IA y tu sitio](https://developers.google.com/search/docs/appearance/ai-features), [Google: datos de producto](https://developers.google.com/search/docs/appearance/structured-data/product).
 
@@ -62,4 +62,4 @@ Marca confirmada: **VICLU.STORE**. Modalidad confirmada: exclusivamente online. 
 
 La entidad OnlineStore especifica Colombia y Barranquilla como áreas atendidas, sin atribuir una sede presencial. Se añaden ItemList para los productos enlazados, datos de marca/color disponibles en títulos de fichas y comprobaciones de FAQ visible, canonical por URL y ausencia de datos físicos inventados. El sitemap contiene 66 URLs indexables en el inventario actual.
 
-Auditoría, mapa de consultas, métricas disponibles y pendientes: [LOCAL-SEO-ANALYSIS-viclu.store.md](LOCAL-SEO-ANALYSIS-viclu.store.md). El envío del sitemap y la inspección de Google requieren iniciar sesión en Search Console; abrir el portal no equivale a haber ejecutado esas acciones.
+Auditoría, mapa de consultas, métricas disponibles y pendientes: [LOCAL-SEO-ANALYSIS-viclu.store.md](LOCAL-SEO-ANALYSIS-viclu.store.md). El propietario inició sesión y se verificó la propiedad de dominio. Los estados del sitemap y las inspecciones están documentados en la auditoría; no se confunden envíos aceptados con indexación completada.
