@@ -70,3 +70,9 @@ El marcado de producto conserva exactamente precio, moneda y disponibilidad del 
 - Hreflang: N/A; una versión española para Colombia (`es-CO`), sin variantes de idioma publicadas.
 - Estado de implementación: **DONE_WITH_CONCERNS** para medición externa. Código verificable; indexación y resultados no certificados sin acceso a Search Console.
 - Skills aplicadas: SEO local, technical-seo-checker y geo-content-optimizer. Sus referencias compartidas `../../references/skill-contract.md` no están instaladas en las rutas provistas; se documentan evidencia, cambios y pendientes aquí.
+
+## Evidencia de publicación
+
+- PR #3 integrado en main; despliegue de producción verificado el 2026-10-04. Las 66 URLs del sitemap responden 200, contienen HTML prerenderizado y canonical propio; una URL inexistente responde 404 y admin mantiene noindex.
+- La [prueba oficial de Google](https://search.google.com/test/rich-results/result?id=mYTOlnCEzGinYCApg01kSA) pudo rastrear la ficha Gorra Águila el 2026-10-04 a las 01:23:21 COT y detectó cinco elementos válidos. En fragmentos de producto, los dos avisos no críticos son `aggregateRating` y `review`, ambos opcionales. No se añaden reseñas o puntuaciones ficticias para eliminarlos. Las otras categorías también presentan avisos no críticos; no se certifica elegibilidad comercial ni aparición en resultados solo con esa validación.
+- Esa prueba confirma acceso y lectura de datos estructurados de una ficha, no inclusión en el índice ni posiciones. Search Console continúa pendiente del inicio de sesión del propietario.
