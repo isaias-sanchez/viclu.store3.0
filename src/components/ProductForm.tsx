@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabaseClient'; // 👈 Importamos el cliente
 import { Image as ImageIcon, X, Save, Loader2 } from 'lucide-react';
 
 interface ProductFormProps {
-    onSubmit: (product: Product) => void;
+    onSubmit: (product: Product) => Promise<boolean>;
     initialData?: Partial<Product>;
     buttonText?: string;
     /**
@@ -37,6 +37,7 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
     const [newCategoryName, setNewCategoryName] = useState('');
 
     const [uploading, setUploading] = useState(false);
+    const [saving, setSaving] = useState(false);
 
     // --- NUEVA LÓGICA DE SUBIDA A STORAGE ---
     const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -79,8 +80,15 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
         }
     };
 
-    const handleSubmit = (e: FormEvent) => {
+    const handleSubmit = async (e: FormEvent) => {
         e.preventDefault();
+
+        if (uploading || saving) return;
+
+        if (!formData.image) {
+            alert("❌ Sube la foto del producto y espera a que termine antes de guardar.");
+            return;
+        }
 
         if (!formData.name?.trim()) {
             alert("❌ El nombre es obligatorio.");
@@ -115,21 +123,27 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
             category: resolvedCategory
         };
 
-        onSubmit(newProduct);
-
-        if (!initialData.id) {
+        setSaving(true);
+        try {
+            const success = await onSubmit(newProduct);
+            if (!success || initialData.id) return;
             setFormData({
                 name: '', brand: '', price: 0, stock: 1,
                 description: '', color: '', image: null,
-                category: categories[0] || ''
+                category: categories[0] || '', active: true
             });
             setIsCreatingCategory(categories.length === 0);
             setNewCategoryName('');
+        } catch {
+            alert("❌ No se pudo guardar el producto. Tus datos y la foto siguen aquí; vuelve a intentarlo.");
+        } finally {
+            setSaving(false);
         }
     };
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit}>
+            <fieldset disabled={saving} className="space-y-6">
 
             {/* SECCIÓN IMAGEN */}
             <div className="flex flex-col items-center justify-center mb-6">
@@ -160,6 +174,7 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
 
                     <input
                         type="file"
+                        aria-label="Foto del producto"
                         accept="image/*"
                         onChange={handleImageUpload}
                         className="absolute inset-0 opacity-0 cursor-pointer"
@@ -279,11 +294,13 @@ const ProductForm = ({ onSubmit, initialData = {}, buttonText = "Guardar Product
 
             <button
                 type="submit"
-                className="w-full bg-[#E5E4E2] hover:bg-white text-black font-display font-bold text-lg py-3 rounded flex items-center justify-center gap-2 transition-transform active:scale-[0.99]"
+                disabled={uploading || saving}
+                className="w-full bg-[#E5E4E2] hover:bg-white text-black font-display font-bold text-lg py-3 rounded flex items-center justify-center gap-2 transition-transform active:scale-[0.99] disabled:opacity-50 disabled:cursor-wait"
             >
-                <Save className="w-5 h-5" />
-                {buttonText}
+                {uploading || saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+                {uploading ? 'Esperando foto…' : saving ? 'Guardando…' : buttonText}
             </button>
+            </fieldset>
         </form>
     );
 };
