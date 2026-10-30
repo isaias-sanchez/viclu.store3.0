@@ -36,10 +36,17 @@ belong only in n8n's encrypted credential store, never in this repository, the
 browser bundle, node parameters, or workflow exports. The management token
 must authorize reading and restoring this project.
 
-Deployment status as of 30 October 2026: prepared and tested locally. Server
-activation awaits a valid API key for `https://n8n.fourgsolutions.com`; the
-stored key returned HTTP 401. No recurring recovery is active until deployment
-and a real successful execution have been recorded here.
+Deployment status as of 30 October 2026: **active** on
+[n8n workflow qj4AV6fMijzya5BL](https://n8n.fourgsolutions.com/workflow/qj4AV6fMijzya5BL),
+every 15 minutes, timezone `America/Bogota`. The first real scheduled execution,
+`435787`, completed successfully at 14:35 COT and returned `outcome: healthy`.
+The project was already healthy, so no restore request was sent. The final
+15-minute schedule and active state were read back from the server.
+
+Both credentials are stored encrypted in n8n and restricted to their respective
+HTTP domains. Successful execution payload retention is disabled after the
+initial validation. A valid existing n8n key was recovered from local client
+configuration; no new account, paid plan or public webhook was required.
 
 ## Browser recovery
 
