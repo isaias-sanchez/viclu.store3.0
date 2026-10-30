@@ -103,6 +103,7 @@ export default function AdminPage() {
         if (success) {
             alert("✅ ¡Producto guardado en el inventario!");
         }
+        return success;
     };
 
     if (authLoading) {
