@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { supabase } from '../lib/supabaseClient';
 import type { Product } from '../types/product';
 import { catalogSnapshot } from '../lib/catalog';
@@ -7,30 +7,49 @@ export const useProducts = () => {
     const [products, setProducts] = useState<Product[]>(catalogSnapshot);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const retryNeeded = useRef(false);
+    const fetching = useRef(false);
 
     // 1. CARGAR PRODUCTOS DESDE LA NUBE (Supabase)
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
+        if (fetching.current) return;
+        fetching.current = true;
         setLoading(true);
         try {
             const { data, error: fetchError } = await supabase
                 .from('products')
                 .select('*')
                 .order('created_at', { ascending: false })
-                .order('id', { ascending: true });
+                .order('id', { ascending: true })
+                .abortSignal(AbortSignal.timeout(10000));
             if (fetchError) throw fetchError;
             setProducts((data as Product[]) || []);
+            retryNeeded.current = false;
             setError(null);
         } catch {
+            retryNeeded.current = true;
             setError('No se pudo actualizar el inventario.');
         } finally {
+            fetching.current = false;
             setLoading(false);
         }
-    };
+    }, []);
 
     // Cargar al iniciar
     useEffect(() => {
         fetchProducts();
-    }, []);
+        const retry = window.setInterval(() => {
+            if (retryNeeded.current && navigator.onLine !== false) fetchProducts();
+        }, 30000);
+        const reconnect = () => { fetchProducts(); };
+        window.addEventListener('online', reconnect);
+        window.addEventListener('focus', reconnect);
+        return () => {
+            window.clearInterval(retry);
+            window.removeEventListener('online', reconnect);
+            window.removeEventListener('focus', reconnect);
+        };
+    }, [fetchProducts]);
 
     // 2. AÑADIR PRODUCTO (Insertar en Nube)
     const addProduct = async (product: Product): Promise<boolean> => {
