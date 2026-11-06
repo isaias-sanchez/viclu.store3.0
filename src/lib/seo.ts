@@ -13,7 +13,7 @@ export function pageMetadata({ category, product, notFound, editorial }: SeoOpti
     url: `${SITE_URL}${path}`,
     title: notFound ? 'Página no encontrada | VICLU.STORE' : content ? content.title : product ? `${productLabel(product)} | VICLU.STORE` : category ? `Gorras ${category}: catálogo online | VICLU.STORE` : 'Gorras online en Colombia y Barranquilla | VICLU.STORE',
     description: content ? content.description : product ? `${productLabel(product)}. Colección ${product.category} de VICLU.STORE. Consulta precio, disponibilidad y ajuste por WhatsApp. Envíos en Colombia.` : category ? `Explora gorras ${category} en VICLU.STORE: fotos y precios del catálogo, pedidos por WhatsApp y envíos a Barranquilla y otras ciudades de Colombia.` : 'VICLU.STORE, tienda online de gorras beisboleras, camioneras, multimarca y Selección Colombia. Pedidos por WhatsApp y envíos a Barranquilla y Colombia.',
-    image: product?.image?.startsWith('https://') ? product.image : `${SITE_URL}/images/halloween-hero.webp`,
+    image: product?.image?.startsWith('https://') ? product.image : `${SITE_URL}/images/viclu-og.jpg`,
     robots: notFound ? 'noindex, follow' : 'index, follow, max-image-preview:large',
   };
 }

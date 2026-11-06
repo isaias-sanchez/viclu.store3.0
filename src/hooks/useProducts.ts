@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { supabase } from '../lib/supabaseClient';
 import type { Product } from '../types/product';
 import { catalogSnapshot } from '../lib/catalog';
+
+// Supabase pesa: se carga en su propio archivo, cuando la página ya es visible.
+const getSupabase = async () => (await import('../lib/supabaseClient')).supabase;
 
 export const useProducts = () => {
     const [products, setProducts] = useState<Product[]>(catalogSnapshot);
@@ -16,6 +18,7 @@ export const useProducts = () => {
         fetching.current = true;
         setLoading(true);
         try {
+            const supabase = await getSupabase();
             const { data, error: fetchError } = await supabase
                 .from('products')
                 .select('*')
@@ -61,6 +64,7 @@ export const useProducts = () => {
 
         console.log("Intentando guardar producto:", productData);
 
+        const supabase = await getSupabase();
         const { error } = await supabase
             .from('products')
             .insert([productData]);
@@ -84,6 +88,7 @@ export const useProducts = () => {
 
     // 3. ELIMINAR PRODUCTO
     const removeProduct = async (id: string) => {
+        const supabase = await getSupabase();
         const { error } = await supabase
             .from('products')
             .delete()
@@ -101,6 +106,7 @@ export const useProducts = () => {
         const product = products.find(p => p.id === id);
         if (!product) return;
 
+        const supabase = await getSupabase();
         const { error } = await supabase
             .from('products')
             .update({ active: !product.active })
@@ -116,6 +122,7 @@ export const useProducts = () => {
         // Contar antes para reportar
         const targetCount = products.filter(p => p.category === category).length;
 
+        const supabase = await getSupabase();
         const { error } = await supabase
             .from('products')
             .delete()
