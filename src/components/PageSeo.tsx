@@ -6,7 +6,7 @@ export default function PageSeo({ category, product, notFound, editorial }: SeoO
     const options = { category, product, notFound, editorial };
     const meta = pageMetadata(options);
     document.title = meta.title;
-    for (const [name, content] of Object.entries({ description: meta.description, robots: meta.robots, 'og:type': product ? 'product' : 'website', 'og:title': meta.title, 'og:description': meta.description, 'og:url': meta.url, 'og:image': meta.image, 'og:image:alt': product?.name || 'VICLU.STORE Especial Halloween', 'twitter:title': meta.title, 'twitter:description': meta.description, 'twitter:image': meta.image })) {
+    for (const [name, content] of Object.entries({ description: meta.description, robots: meta.robots, 'og:type': product ? 'product' : 'website', 'og:title': meta.title, 'og:description': meta.description, 'og:url': meta.url, 'og:image': meta.image, 'og:image:alt': product?.name || 'VICLU.STORE, gorras de estilo urbano', 'twitter:title': meta.title, 'twitter:description': meta.description, 'twitter:image': meta.image })) {
       const attr = name.startsWith('og:') ? 'property' : 'name';
       let element = document.querySelector(`meta[${attr}="${name}"]`);
       if (!element) { element = document.createElement('meta'); element.setAttribute(attr, name); document.head.appendChild(element); }

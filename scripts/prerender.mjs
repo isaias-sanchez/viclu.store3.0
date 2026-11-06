@@ -1,7 +1,14 @@
-import { readFile, writeFile, mkdir } from 'node:fs/promises';
+import { readFile, readdir, writeFile, mkdir } from 'node:fs/promises';
 import { getPages, render, SITE_URL, pageMetadata, structuredData } from '../.ssr/entry-server.js';
 
-const template = await readFile('dist/index.html', 'utf8');
+// Las dos fuentes de la primera pantalla se piden junto con el HTML: el texto no cambia de letra al cargar.
+const assets = await readdir('dist/assets');
+const fontPreloads = [/^bebas-neue-latin-400-normal.*\.woff2$/, /^inter-latin-wght-normal.*\.woff2$/]
+  .map(pattern => assets.find(file => pattern.test(file)))
+  .filter(Boolean)
+  .map(file => `<link rel="preload" href="/assets/${file}" as="font" type="font/woff2" crossorigin />`)
+  .join('\n');
+const template = (await readFile('dist/index.html', 'utf8')).replace('<!-- font-preload -->', fontPreloads);
 const escape = text => String(text).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
 const pages = getPages();
 for (const page of pages) {
@@ -16,7 +23,7 @@ for (const page of pages) {
 <meta property="og:description" content="${escape(meta.description)}" />
 <meta property="og:url" content="${escape(meta.url)}" />
 <meta property="og:image" content="${escape(meta.image)}" />
-<meta property="og:image:alt" content="${escape(page.options.product?.name || 'VICLU.STORE Halloween Edit')}" />
+<meta property="og:image:alt" content="${escape(page.options.product?.name || 'VICLU.STORE, gorras de estilo urbano')}" />
 <meta name="twitter:title" content="${escape(meta.title)}" />
 <meta name="twitter:description" content="${escape(meta.description)}" />
 <meta name="twitter:image" content="${escape(meta.image)}" />

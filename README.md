@@ -137,7 +137,10 @@ src/
 └── data/products.ts        Seed data (fallback)
 
 public/videos/
-├── hero.webm               Video de fondo del Hero
+├── {nombre}-{720|576}.webm  Versión grande (escritorio)
+├── {nombre}-{480|360}.webm  Versión móvil
+├── {nombre}-480.mp4        Respaldo para iPhone antiguos
+├── {nombre}-poster-*.webp  Póster que se ve mientras llega el video
 ├── lifestyle-calle.webm    Video 1 — narrativa urbana
 ├── producto-studio.webm    Video 2 — calidad del producto
 └── variedad.webm           Video 3 — variedad de estilos
@@ -157,9 +160,9 @@ Para rotar la anon key de Supabase: Dashboard → Settings → API → `Reset` y
 
 ## 🎬 Videos
 
-Los videos `.webm` en `public/videos/` se cargan perezosamente y sólo se reproducen cuando entran en viewport (via `IntersectionObserver`). No afectan el LCP porque sólo `hero.webm` tiene `preload="auto"`; el resto usa `preload="metadata"`.
+Los videos viven en `public/videos/` y se sirven desde el CDN del sitio. `LoopVideo.tsx` muestra primero el póster y descarga el video sólo cuando hace falta: el de la portada al terminar de cargar la página, los demás al acercarse a la pantalla. Se pausan fuera de pantalla y no se descargan con ahorro de datos, red 2G o movimiento reducido.
 
-Para reemplazar un video, simplemente sustituí el archivo en `public/videos/` manteniendo el mismo nombre.
+Para reemplazar un video, genera todas sus versiones con un nombre nuevo y actualízalo en `src/lib/videos.ts`: la caché del navegador dura 30 días y no se renueva si el nombre sigue igual.
 
 ---
 
@@ -179,7 +182,7 @@ npm run build
 Las compras se gestionan por **WhatsApp**. Cada `ProductCard` genera un link `wa.me/<phone>?text=...` con el nombre del producto y precio pre-cargados.
 
 
-## Halloween · SEO / GEO (octubre 2026)
+## SEO / GEO
 
 La compilación consulta el inventario público, optimiza sus fotografías y genera HTML por categoría/producto, metadatos y sitemap. Configura las variables de `.env.example` antes de ejecutar `npm run dev` o `npm run build`. No se usa el seed demo como inventario. Ejecuta `npm run lint` y `npm run check:seo` después del build.
 

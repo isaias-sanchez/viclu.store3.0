@@ -1,8 +1,8 @@
-# VICLU.STORE — Halloween, SEO y GEO
+# VICLU.STORE — SEO y GEO
 
 ## Qué se entrega
 
-- Campaña Halloween en negro y naranja, portada fotográfica, catálogo de cuatro columnas en escritorio y dos en móvil, menú móvil, búsqueda y sección urbana.
+- Diseño original de la marca: negro y platino, portada con video, secciones de video y catálogo de tres columnas en escritorio y una en móvil, con búsqueda y colecciones. La campaña Halloween de octubre de 2026 se retiró en noviembre de 2026; queda en el historial de git (PR #2).
 - Marca VICLU.STORE y precios literales del inventario (30 / 40 / 50 COP), confirmados por el propietario. No se modifica la base de datos ni se multiplica el precio.
 - Páginas HTML para inicio, cada colección disponible y cada producto activo, además de 404 y administración.
 - Datos reales de Supabase: la compilación falla si el inventario no puede consultarse; no publica productos ficticios.
@@ -45,16 +45,6 @@ El snapshot y las variantes del inventario se generan en build y están excluido
 El inicio está indexado según Search Console. Las solicitudes de actualización y de nuevas páginas no certifican su inclusión ni garantizan posiciones o tráfico. Para aparecer en las experiencias de IA de Google, siguen aplicando las prácticas SEO: contenido útil, accesible en texto, enlaces internos y datos estructurados acordes al contenido visible. No se necesita un archivo llms.txt ni un marcado especial de IA. La FAQ ayuda a clientes y a interpretar el negocio; no se promete un resultado enriquecido FAQ para esta tienda.
 
 Fuentes: [Google: funciones de IA y tu sitio](https://developers.google.com/search/docs/appearance/ai-features), [Google: datos de producto](https://developers.google.com/search/docs/appearance/structured-data/product).
-
-## Material gráfico de campaña
-
-Skill usada: `/Users/isaias/.codex/skills/.system/imagegen/SKILL.md`, herramienta integrada image_gen (sin API CLI). Son imágenes de campaña, no sustitutos de fotos del inventario.
-
-- `public/images/halloween-hero.webp`: foto editorial de gorra negra en asfalto mojado, callejón oscuro, grafiti naranja de jack-o-lantern, espacio oscuro a la izquierda para el titular, sin textos o marcas de terceros.
-- `public/images/halloween-cap-eclipse.webp`: nueva pieza protagonista del hero, gorra negra con cinta satinada naranja y fondo transparente, 1000 × 1000, 198 KB. El titular y el eclipse se construyen en HTML/SVG para conservar texto indexable y animación por capas.
-- `public/images/city-poster.webp`: hombre adulto de espaldas, gorra y hoodie negros, callejón colombiano al atardecer, luces ámbar y espacio a la izquierda para el texto, sin textos/logos.
-
-Prompts completos de generación guardados en `docs/image-prompts.md`.
 
 ## Refuerzo orgánico y local — 2026-10-04
 

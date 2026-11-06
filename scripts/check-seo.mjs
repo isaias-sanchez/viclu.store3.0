@@ -14,6 +14,7 @@ for (const page of pages) {
   titles.push(title);
   assert.ok(html.includes('data-prerendered="true"'), `HTML before JS: ${page.path}`);
   assert.ok(html.includes('VICLU.STORE'), `Brand: ${page.path}`);
+  assert.ok(!/halloween|truco o estilo/i.test(html), `No seasonal campaign left: ${page.path}`);
   const schema = JSON.parse(html.match(/<script id="page-jsonld" type="application\/ld\+json">(.*?)<\/script>/s)?.[1] || 'null');
   assert.equal(schema['@context'], 'https://schema.org');
   assert.equal((html.match(/rel="canonical"/g) || []).length, 1, `Single canonical: ${page.path}`);
@@ -50,7 +51,6 @@ for (const page of pages) {
     }
   }
   if (page.options.editorial) {
-    assert.ok(!title.includes('Halloween'), 'Editorial title stays evergreen');
     assert.ok(html.includes('Tienda exclusivamente online'), 'Online modality visible');
     assert.ok(html.includes('/envios-y-compras') && html.includes('/gorras-en-barranquilla') && html.includes('/guia-de-gorras'), 'Editorial pages linked together');
     if (page.options.editorial === 'barranquilla') {
